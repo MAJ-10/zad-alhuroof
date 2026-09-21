@@ -6,436 +6,713 @@
 <meta name="robots" content="noindex, nofollow">
 <title>لوحة الأسئلة — زاد الحروف</title>
 <link rel="icon" href="icon-180.png">
+<link rel="stylesheet" href="font.css">
 <style>
+/* ═══════════════════════════════════════════════════════════
+   هدوء قبل الزينة: خطوط شعرية لا صناديق، وأفعال تظهر عند
+   المرور لا تزدحم دائماً، ولون واحد يقود. والعربية تحتاج
+   قياساً أكبر وسطراً أوسع من اللاتينية.
+   ═══════════════════════════════════════════════════════════ */
 :root{
-  --ui:"IBM Plex Sans Arabic","Segoe UI",system-ui,"Tahoma",sans-serif;
-  --teal:#1A7E8B; --teal-d:#0F4A53; --lime:#B6C92F; --red:#AF3534; --amber:#B0730A;
-  --bg:#F4F7F8; --card:#FFFFFF; --ink:#12262B; --soft:#5C7076; --line:#DCE6E8;
-  --chip:#EAF1F2;
+  --ui:"IBM Plex Sans Arabic","Segoe UI",system-ui,sans-serif;
+  --teal:#3CA9B8; --teal-top:#48B9C8; --teal-soft:rgba(60,169,184,.14);
+  --lime:#B6C92F; --amber:#D69B3C; --red:#E0706E;
+  --bg:#0B2129; --surface:#102D36; --hover:#153741; --sunk:#0D2831;
+  --ink:#E8F3F4; --ink2:#9FB8BD; --ink3:#6E8C93;
+  --hair:#1A404B; --edge:#22505C;
 }
-@media (prefers-color-scheme:dark){:root{
-  --bg:#0C2228; --card:#123039; --ink:#EAF4F5; --soft:#9FB8BD; --line:#1F444F; --chip:#173A44;
-}}
+/* اللوحة غامقة دائماً، لا تتبع مزاج النظام فتتبدّل تحت يد المشرف */
+html{color-scheme:dark}
 *{box-sizing:border-box}
-body{margin:0;font-family:var(--ui);background:var(--bg);color:var(--ink);font-size:14px;line-height:1.6}
-button,input,select,textarea{font-family:inherit;font-size:inherit;color:inherit}
-button{cursor:pointer}
-.wrap{max-width:1000px;margin:0 auto;padding:0 14px}
+html{scrollbar-width:none}
+html::-webkit-scrollbar{width:0;height:0;display:none}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font:400 15px/1.75 var(--ui);-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer;background:none;border:0;padding:0}
+.wrap{max-width:1060px;margin:0 auto;padding:0 16px}
+.grow{flex:1}
+.num{font-variant-numeric:tabular-nums}
 
-/* ── الشريط العلوي ── */
-.top{position:sticky;top:0;z-index:10;background:var(--card);border-bottom:1px solid var(--line)}
-.top .wrap{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding-block:10px}
-.ttl{font-size:16px;font-weight:700;margin-inline-end:auto}
-.ttl small{display:block;font-size:11.5px;font-weight:400;color:var(--soft)}
-.btn{display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 13px;border-radius:10px;
-  border:1px solid var(--line);background:var(--chip);color:var(--ink);font-size:13px;font-weight:600}
-.btn:hover{border-color:var(--teal)}
-.btn:disabled{opacity:.45;cursor:default;border-color:var(--line)}
-.btn.pri{background:var(--teal);border-color:var(--teal-d);color:#fff}
-.btn.dan{background:transparent;border-color:var(--red);color:var(--red)}
-.dot{width:8px;height:8px;border-radius:50%;background:var(--red);flex:none}
+/* خيط التقدّم أعلى الشاشة بدل شريط الجانب */
+.prog{position:fixed;inset-inline:0;top:0;height:2px;z-index:70;pointer-events:none}
+.prog i{display:block;height:100%;width:0;background:var(--teal)}
+
+/* ── الشريط العلوي: صفّ واحد ── */
+.bar{position:sticky;top:0;z-index:30;background:var(--surface);
+  border-bottom:1px solid var(--hair)}
+.bar .wrap{display:flex;align-items:center;gap:12px;height:58px}
+.mark{width:30px;height:30px;border-radius:9px;flex:none}
+.id b{display:block;font-size:14.5px;font-weight:700;line-height:1.3}
+.id span{display:block;font-size:11.5px;color:var(--ink3);line-height:1.5}
+
+.find{display:flex;align-items:center;gap:8px;height:36px;padding:0 12px;
+  border-radius:10px;background:var(--sunk);border:1px solid transparent;
+  width:clamp(160px,32vw,320px);transition:border-color .15s,background .15s}
+.find:focus-within{background:var(--surface);border-color:var(--teal)}
+.find svg{flex:none;color:var(--ink3)}
+.find input{flex:1;min-width:0;border:0;background:none;outline:none;font-size:14px}
+.find input::-webkit-search-cancel-button{-webkit-appearance:none;width:14px;height:14px;
+  cursor:pointer;background:currentColor;color:var(--ink3);
+  -webkit-mask:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.6' stroke-linecap='round'%3E%3Cpath d='M6 6l12 12M18 6L6 18'/%3E%3C/svg%3E") center/contain no-repeat}
+
+.act{display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  height:36px;min-width:36px;padding:0 11px;border-radius:10px;
+  font-size:13.5px;font-weight:600;color:var(--ink2);
+  border:1px solid var(--edge);background:var(--surface);
+  transition:color .15s,border-color .15s,background .15s}
+.act:hover{color:var(--ink);border-color:var(--teal)}
+.act:disabled{opacity:.4;cursor:default;border-color:var(--edge);color:var(--ink3)}
+.act.go{color:#fff;border-color:transparent;background:var(--teal)}
+.act.go:hover{background:var(--teal-top)}
+.act.quiet{border-color:transparent;background:transparent}
+.act.quiet:hover{background:var(--hover);border-color:transparent;color:var(--ink)}
+.act.danger{color:var(--red);border-color:transparent}
+.act.danger:hover{background:rgba(176,58,56,.1);border-color:transparent}
+.act[hidden]{display:none}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--red);flex:none}
 .dot.on{background:var(--lime)}
 
-/* ── أدوات البحث ── */
-.tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center;padding-block:12px}
-.search{flex:1;min-width:200px;height:38px;padding:0 12px;border-radius:10px;
-  border:1px solid var(--line);background:var(--card)}
-.letters{display:flex;flex-wrap:wrap;gap:5px;padding-bottom:10px}
-.lt{min-width:36px;height:32px;padding:0 7px;border-radius:9px;border:1px solid var(--line);
-  background:var(--card);font-size:14px;font-weight:600;display:inline-flex;
-  align-items:center;justify-content:center;gap:4px}
-.lt b{font-size:10px;font-weight:600;color:var(--soft)}
-.lt.on{background:var(--teal);border-color:var(--teal-d);color:#fff}
-.lt.on b{color:#D6EEF1}
+/* ── شريط التصفية ── */
+.sub{position:sticky;top:58px;z-index:29;background:var(--bg);
+  border-bottom:1px solid var(--hair);box-shadow:0 8px 16px -12px rgba(0,0,0,.6)}
+.sub .wrap{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding-block:9px}
+.segs{display:flex;gap:2px;padding:3px;border-radius:11px;background:var(--sunk)}
+.segs button{display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 12px;
+  border-radius:8px;font-size:13.5px;font-weight:600;color:var(--ink2);
+  transition:background .15s,color .15s}
+.segs button:hover{color:var(--ink)}
+.segs button.on{background:var(--surface);color:var(--ink);
+  box-shadow:0 1px 3px rgba(18,42,48,.1)}
+.segs i{font-style:normal;font-size:11px;font-weight:700;padding:1px 6px;border-radius:99px;
+  background:var(--hair);color:var(--ink2);font-variant-numeric:tabular-nums}
+.segs button.on i{background:var(--teal-soft);color:var(--teal)}
+.segs i:empty,.segs i[data-n="0"]{display:none}
+.tally{font-size:12.5px;color:var(--ink3)}
 
-/* ── القائمة ── */
-.count{color:var(--soft);font-size:12.5px;padding-bottom:8px}
-.row{display:flex;gap:10px;align-items:flex-start;background:var(--card);border:1px solid var(--line);
-  border-radius:12px;padding:10px 12px;margin-bottom:7px}
-.row.new{border-color:var(--lime);box-shadow:inset 3px 0 0 var(--lime)}
-.row.edited{border-color:var(--amber);box-shadow:inset 3px 0 0 var(--amber)}
-.badge{flex:none;width:32px;height:32px;border-radius:9px;background:var(--chip);
-  display:grid;place-items:center;font-size:15px;font-weight:700;color:var(--teal)}
-.qa{flex:1;min-width:0}
-.qa .q{font-weight:600;word-wrap:break-word}
-.qa .a{color:var(--soft);font-size:13px;margin-top:2px}
-.qa .a b{color:var(--teal);font-weight:600}
-.warn{display:inline-block;margin-top:4px;font-size:11.5px;color:var(--amber);
-  background:rgba(176,115,10,.1);border-radius:6px;padding:1px 7px}
-.acts{flex:none;display:flex;gap:5px}
-.ico{width:32px;height:32px;border-radius:9px;border:1px solid var(--line);background:transparent;
-  display:grid;place-items:center;color:var(--soft)}
-.ico:hover{color:var(--teal);border-color:var(--teal)}
-.ico.d:hover{color:var(--red);border-color:var(--red)}
-.empty{text-align:center;color:var(--soft);padding:40px 0}
+/* ── قائمة منسدلة بهوية الموقع، لا هوية النظام ── */
+.drop{position:relative}
+.drop>button{display:inline-flex;align-items:center;gap:7px;height:36px;padding:0 12px;
+  border-radius:10px;font-size:13.5px;font-weight:600;color:var(--ink2);
+  border:1px solid var(--edge);background:var(--surface);width:100%;justify-content:space-between}
+/* عرض ثابت حتى لا يقفز الزر حين يتغيّر اسم الحرف */
+#letters{width:124px;flex:none}
+#letters>button>span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.drop>button:hover{border-color:var(--teal);color:var(--ink)}
+.drop>button svg{flex:none;color:var(--ink3);transition:transform .18s}
+.drop.open>button{border-color:var(--teal);color:var(--ink)}
+.drop.open>button svg{transform:rotate(180deg)}
+/* المنبثق ينساب نحو داخل الشاشة لا نحو حافتها: زرّ في اليسار ينساب
+   يميناً، وزرّ في اليمين ينساب يساراً. */
+.pop{position:absolute;top:calc(100% + 6px);inset-inline-end:0;z-index:40;
+  min-width:252px;max-width:calc(100vw - 28px);
+  padding:8px;border-radius:14px;background:var(--surface);
+  border:1px solid var(--edge);box-shadow:0 18px 44px rgba(0,0,0,.4);
+  animation:pop .14s ease-out both}
+#menu .pop{min-width:210px}
+/* منتقي الحرف داخل النافذة ينفتح لأعلى: النافذة تقصّ ما يتجاوز حدّها */
+#edLetter .pop{top:auto;bottom:calc(100% + 6px)}
+@keyframes pop{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+.pop[hidden]{display:none}
+.pop .all{display:block;width:100%;text-align:start;padding:7px 10px;border-radius:9px;
+  font-size:13.5px;font-weight:600;color:var(--ink2)}
+.pop .all:hover{background:var(--hover);color:var(--ink)}
+.pop .all.on{background:var(--teal-soft);color:var(--teal)}
+.pop .grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-top:6px}
+.pop .grid button{height:36px;border-radius:9px;font-size:15px;font-weight:600;
+  color:var(--ink);display:grid;place-items:center;line-height:1}
+.pop .grid button small{display:block;font-size:9px;font-weight:600;color:var(--ink3);
+  font-variant-numeric:tabular-nums}
+.pop .grid button:hover{background:var(--hover)}
+.pop .grid button.on{background:var(--teal);color:#fff}
+.pop .grid button.on small{color:rgba(255,255,255,.75)}
+.pop .item{display:flex;align-items:center;gap:9px;width:100%;text-align:start;
+  padding:8px 10px;border-radius:9px;font-size:13.5px;font-weight:600;color:var(--ink2)}
+.pop .item:hover{background:var(--hover);color:var(--ink)}
+.pop .item.danger:hover{background:rgba(176,58,56,.1);color:var(--red)}
+.pop hr{border:0;border-top:1px solid var(--hair);margin:6px 2px}
 
-/* ── النوافذ ── */
-.modal{position:fixed;inset:0;z-index:40;display:grid;place-items:center;padding:16px;
-  background:rgba(6,24,29,.6)}
-.modal[hidden]{display:none}
-.box{width:min(560px,100%);max-height:88vh;overflow:auto;background:var(--card);
-  border-radius:16px;padding:18px;border:1px solid var(--line)}
-.box h2{margin:0 0 14px;font-size:16px}
-.fld{margin-bottom:12px}
-.fld label{display:block;font-size:12.5px;font-weight:600;color:var(--soft);margin-bottom:5px}
-.fld input,.fld select,.fld textarea{width:100%;padding:9px 11px;border-radius:10px;
-  border:1px solid var(--line);background:var(--bg)}
-.fld textarea{min-height:120px;resize:vertical;font-size:13px;line-height:1.7}
-.msg{font-size:12.5px;border-radius:9px;padding:8px 11px;margin-bottom:12px}
-.msg.err{color:var(--red);background:rgba(175,53,52,.1)}
-.msg.warn{color:var(--amber);background:rgba(176,115,10,.1)}
-.msg.ok{color:var(--teal);background:rgba(26,126,139,.1)}
-.msg.note{color:var(--soft);background:var(--chip)}
-.msg[hidden]{display:none}
-.foot{display:flex;gap:8px;justify-content:flex-start;margin-top:16px}
-.foot .grow{margin-inline-end:auto}
-code{background:var(--chip);padding:1px 5px;border-radius:5px;font-size:12px;
+/* ── القائمة: خطوط شعرية، بلا صناديق ── */
+/* main يحمل صنف wrap أيضاً، وقاعدة الصنف أقوى من قاعدة العنصر مهما
+   تأخّرت — فتُكتب هنا بأخصّ منها وإلا ابتُلعت المسافة. */
+main.wrap{padding-block:22px 96px}
+.sheet{background:var(--surface);border:1px solid var(--hair);border-radius:16px;
+  overflow:hidden}
+.row{display:flex;align-items:center;gap:13px;padding:15px 14px;
+  border-bottom:1px solid var(--hair);transition:background .12s}
+.row:last-child{border-bottom:0}
+.row:hover{background:var(--hover)}
+.glyph{flex:none;width:30px;height:30px;border-radius:9px;display:grid;place-items:center;
+  font-size:16px;font-weight:700;color:var(--teal);background:var(--teal-soft)}
+.row.isnew .glyph{color:#fff;background:var(--lime)}
+.row.isedit .glyph{color:#fff;background:var(--amber)}
+.body{flex:1;min-width:0}
+.body .q{font-size:14.5px;font-weight:500;line-height:1.6}
+.body .a{font-size:12.5px;color:var(--ink3);margin-top:1px}
+.body .a b{color:var(--ink2);font-weight:600}
+.note{flex:none;display:inline-flex;align-items:center;gap:5px;font-size:11.5px;
+  font-weight:600;color:var(--amber);background:rgba(169,107,8,.1);
+  padding:2px 9px;border-radius:99px;white-space:nowrap}
+.ops{flex:none;display:flex;gap:2px}
+.op{width:32px;height:32px;border-radius:9px;display:grid;place-items:center;color:var(--ink3)}
+.op:hover{background:var(--sunk);color:var(--teal)}
+/* صف محذوف في عرض التغييرات */
+.row.isdel{background:rgba(176,58,56,.045)}
+.row.isdel .glyph{color:#fff;background:var(--red)}
+.row.isdel .body .q{text-decoration:line-through;color:var(--ink3)}
+/* «كان … صار» */
+.was{margin-top:4px;font-size:12px;color:var(--ink3);line-height:1.7}
+.was span{display:block}
+.was .from{color:var(--red)}
+.was .to{color:var(--lime)}
+.was b{font-weight:600}
+.blank{text-align:center;padding:60px 24px;color:var(--ink3)}
+.blank b{display:block;font-size:15px;color:var(--ink2);margin-bottom:5px}
+.blank span{font-size:13px}
+
+/* ═══ النوافذ ═══
+   البحث دلّ على قاعدتين: الجوال يريد ورقة تنزلق من الأسفل فالأفعال
+   في متناول الإبهام، والحاسب يريد نافذة وسطية. والغطاء لا يُغلق بالضغط
+   عليه لئلا يضيع عمل المشرف بلمسة عارضة — الإغلاق بـ× أو Escape.
+   ولمسات لا تقلّ عن ٤٤ بكسل. */
+.veil{position:fixed;inset:0;z-index:50;display:flex;
+  background:rgba(4,16,20,calc(.62 * var(--o,1)));
+  backdrop-filter:blur(calc(5px * var(--o,1)));
+  animation:fade .16s ease-out both}
+.veil[hidden]{display:none}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@keyframes fadeOut{to{opacity:0}}
+@keyframes lift{from{opacity:0;transform:translateY(14px) scale(.985)}to{opacity:1;transform:none}}
+@keyframes sink{to{opacity:0;transform:translateY(10px) scale(.985)}}
+@keyframes slide{from{transform:translateY(100%)}to{transform:none}}
+@keyframes slideOut{to{transform:translateY(100%)}}
+/* الخروج السلس */
+.veil.out{animation:fadeOut .2s ease-in both;pointer-events:none}
+.veil.out .card{animation:sink .2s ease-in both}
+@media (max-width:640px){ .veil.out .card{animation:slideOut .24s cubic-bezier(.4,0,.8,.3) both} }
+@media (prefers-reduced-motion:reduce){
+  .veil,.veil .card,.veil.out,.veil.out .card{animation-duration:.01ms}
+}
+
+.card{display:flex;flex-direction:column;background:var(--surface);
+  border:1px solid var(--edge);box-shadow:0 26px 70px rgba(0,0,0,.5);
+  transition:transform .26s cubic-bezier(.2,.9,.3,1)}
+.card.dragging{transition:none}
+.grab{display:none}
+
+/* الحاسب: نافذة وسطية */
+@media (min-width:641px){
+  .veil{align-items:center;justify-content:center;padding:24px}
+  .card{width:min(540px,100%);max-height:88vh;border-radius:20px;
+    animation:lift .22s cubic-bezier(.2,.9,.3,1) both}
+}
+/* الجوال: ورقة سفلية بمقبض سحب */
+@media (max-width:640px){
+  .veil{align-items:flex-end}
+  .card{width:100%;max-height:92vh;border-radius:22px 22px 0 0;border-bottom:0;
+    animation:slide .26s cubic-bezier(.2,.9,.3,1) both}
+  /* منطقة السحب: المقبض والترويسة — لا جسم النافذة لئلا يتعارض مع التمرير */
+  .grab{display:block;flex:none;padding:10px 0 4px;cursor:grab;touch-action:none}
+  .grab::before{content:"";display:block;width:40px;height:4.5px;border-radius:99px;
+    background:var(--edge);margin:0 auto;transition:background .15s}
+  .card.dragging .grab{cursor:grabbing}
+  .card.dragging .grab::before{background:var(--ink3)}
+  .card>header{touch-action:none}
+}
+
+.card>header{flex:none;display:flex;align-items:center;gap:12px;
+  padding:16px 18px 12px;border-bottom:1px solid var(--hair)}
+.card>header h2{margin:0;font-size:17px;font-weight:700;flex:1;line-height:1.4}
+.x{width:38px;height:38px;flex:none;border-radius:11px;display:grid;place-items:center;
+  color:var(--ink3);transition:background .15s,color .15s}
+.x:hover{background:var(--hover);color:var(--ink)}
+.card>.in{flex:1;overflow:auto;padding:16px 18px;
+  scrollbar-width:thin;scrollbar-color:var(--edge) transparent}
+.card>.in::-webkit-scrollbar{width:8px}
+.card>.in::-webkit-scrollbar-thumb{background:var(--edge);border-radius:8px;
+  border:2px solid transparent;background-clip:content-box}
+/* الأفعال ملتصقة بالأسفل: تُرى بلا تمرير وتقع تحت الإبهام */
+.card>footer{flex:none;display:flex;align-items:center;gap:9px;
+  padding:13px 18px;padding-bottom:calc(13px + env(safe-area-inset-bottom));
+  border-top:1px solid var(--hair);background:var(--surface)}
+.card>footer .act{height:44px;padding:0 18px;font-size:14px}
+.card>footer .act.go{flex:1}
+@media (max-width:640px){ .card>footer .act:not(.danger){flex:1} }
+
+.f{margin-bottom:15px}
+.f:last-child{margin-bottom:0}
+.f>label{display:block;font-size:12.5px;font-weight:600;color:var(--ink2);margin-bottom:7px}
+/* الإجابة والحرف في سطر واحد، والحرف أقصر */
+.pair{display:flex;gap:10px;align-items:flex-start}
+.pair .f{flex:1;margin-bottom:0}
+.pair .f.short{flex:none;width:112px}
+.f input[type=text],.f input[type=password],.f textarea{width:100%;min-height:46px;
+  padding:11px 14px;border-radius:12px;border:1px solid var(--edge);background:var(--sunk);
+  outline:none;font-size:14.5px;transition:border-color .15s,background .15s,box-shadow .15s}
+.f input:focus,.f textarea:focus{border-color:var(--teal);background:var(--surface);
+  box-shadow:0 0 0 3px var(--teal-soft)}
+.f textarea{min-height:104px;resize:none;line-height:1.85}
+/* خانة السؤال تنمو بقدر نصّها، ولا تُسحب باليد */
+#edQ{overflow:hidden;max-height:46vh}
+#impTxt{min-height:132px;overflow:auto}
+.f input[readonly]{border-style:dashed;color:var(--ink2)}
+.f .drop>button{height:46px;border-radius:12px;background:var(--sunk);font-size:15px}
+.drop-file{display:block;padding:15px;border-radius:12px;border:1.5px dashed var(--edge);
+  background:var(--sunk);text-align:center;font-size:13.5px;color:var(--ink2);cursor:pointer}
+.drop-file:hover{border-color:var(--teal)}
+.drop-file input{display:none}
+.drop-file b{color:var(--teal);font-weight:600}
+.say{font-size:12.5px;line-height:1.8;border-radius:11px;padding:10px 13px;margin-bottom:13px}
+.say[hidden]{display:none}
+.say.info{background:var(--sunk);color:var(--ink2)}
+.say.warn{background:rgba(169,107,8,.1);color:var(--amber)}
+.say.bad{background:rgba(176,58,56,.1);color:var(--red)}
+.say.good{background:var(--teal-soft);color:var(--teal)}
+.rule{border:0;border-top:1px solid var(--hair);margin:18px 0 16px}
+code{background:var(--sunk);padding:1px 6px;border-radius:6px;font-size:12px;
   font-family:ui-monospace,Consolas,monospace}
 a{color:var(--teal)}
-ol,ul{margin:0;padding-inline-start:20px}
-li{margin-bottom:5px}
 table{width:100%;border-collapse:collapse;font-size:12.5px}
-th,td{text-align:start;padding:5px 7px;border-bottom:1px solid var(--line);vertical-align:top}
-th{color:var(--soft);font-weight:600}
-tr.bad td{color:var(--red)}
+th,td{text-align:start;padding:7px 10px;border-bottom:1px solid var(--hair);vertical-align:top}
+th{position:sticky;top:0;background:var(--sunk);color:var(--ink2);font-weight:600}
+tr:last-child td{border-bottom:0}
+tr.no td{color:var(--red)}
+.before{color:var(--red)}
+.after{color:var(--lime)}
+.none{color:var(--ink3)}
 tr.dup td{color:var(--amber)}
-.scroll{max-height:260px;overflow:auto;border:1px solid var(--line);border-radius:10px}
+.pane{max-height:250px;overflow:auto;border:1px solid var(--hair);border-radius:12px;
+  scrollbar-width:thin;scrollbar-color:var(--edge) transparent}
+.pane::-webkit-scrollbar{width:8px}
+.pane::-webkit-scrollbar-thumb{background:var(--edge);border-radius:8px;
+  border:2px solid transparent;background-clip:content-box}
+.card{scrollbar-width:thin;scrollbar-color:var(--edge) transparent}
+.card::-webkit-scrollbar{width:8px}
+.card::-webkit-scrollbar-thumb{background:var(--edge);border-radius:8px;
+  border:2px solid transparent;background-clip:content-box}
+
+@media (max-width:640px){
+  .bar .wrap{height:auto;padding-block:10px;flex-wrap:wrap}
+  .find{order:9;width:100%}
+  .id span{display:none}
+}
 </style>
 </head>
 <body>
 
-<header class="top">
-  <div class="wrap">
-    <div class="ttl">لوحة الأسئلة<small id="stats">…</small></div>
-    <button class="btn" id="bKey"><span class="dot" id="keyDot"></span><span id="keyTxt">المفتاح</span></button>
-    <button class="btn" id="bNew">+ سؤال</button>
-    <button class="btn" id="bImp">رفع دفعة</button>
-    <button class="btn" id="bExp">تصدير</button>
-    <button class="btn pri" id="bSave" disabled>حفظ</button>
-  </div>
-</header>
+<div class="prog" aria-hidden="true"><i id="prog"></i></div>
 
-<main class="wrap">
-  <div class="tools">
-    <input class="search" id="q" type="search" placeholder="ابحث في السؤال أو الإجابة…" autocomplete="off">
-    <button class="btn" id="bOnly">التغييرات فقط</button>
+<header class="bar"><div class="wrap">
+  <img class="mark" src="icon-180.png" alt="">
+  <div class="id"><b>لوحة الأسئلة</b><span id="stats"></span></div>
+  <div class="grow"></div>
+  <label class="find">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+    <input id="q" type="search" placeholder="ابحث في السؤال أو الإجابة…" autocomplete="off">
+  </label>
+  <span class="tally num" id="tally"></span>
+  <button class="act" id="bNew" title="سؤال جديد">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+    <span>سؤال</span>
+  </button>
+  <div class="drop" id="menu">
+    <button class="act quiet" title="المزيد" aria-haspopup="menu">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.7"/><circle cx="12" cy="12" r="1.7"/><circle cx="12" cy="19" r="1.7"/></svg>
+    </button>
+    <div class="pop" hidden>
+      <button class="item" id="mImport">رفع دفعة أسئلة</button>
+      <button class="item" id="mExport">تصدير ملف Excel</button>
+      <hr>
+      <button class="item" id="mKeyOpen"><span class="dot" id="keyDot"></span><span id="keyTxt">تفعيل الحفظ</span></button>
+    </div>
   </div>
-  <div class="letters" id="letters"></div>
-  <div class="count" id="count"></div>
-  <div id="list"></div>
-</main>
+  <button class="act go" id="bSave" hidden>حفظ <span class="num" id="saveN"></span></button>
+</div></header>
 
-<!-- تحرير / إضافة -->
-<div class="modal" id="mEdit" hidden><div class="box">
-  <h2 id="edTitle">سؤال جديد</h2>
-  <div class="msg err" id="edErr" hidden></div>
-  <div class="msg warn" id="edWarn" hidden></div>
-  <div class="fld"><label for="edL">الحرف</label><select id="edL"></select></div>
-  <div class="fld"><label for="edQ">السؤال</label><textarea id="edQ" style="min-height:76px"></textarea></div>
-  <div class="fld"><label for="edA">الإجابة</label><input id="edA" type="text"></div>
-  <div class="foot">
-    <button class="btn pri" id="edOk">حفظ في اللوحة</button>
-    <button class="btn" id="edNo">إلغاء</button>
+<nav class="sub"><div class="wrap">
+  <div class="segs" id="segs">
+    <button data-v="all" class="on">الكل</button>
+    <button data-v="diff">تغييرات <i id="nDiff"></i></button>
   </div>
+  <div class="grow"></div>
+  <div class="drop" id="letters">
+    <button aria-haspopup="listbox"><span id="ltTxt">كل الحروف</span>
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+        stroke-width="2.4" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
+    <div class="pop" hidden>
+      <button class="all" id="ltAll">كل الحروف</button>
+      <div class="grid" id="ltGrid"></div>
+    </div>
+  </div>
+</div></nav>
+
+<main class="wrap"><div class="sheet" id="sheet"></div></main>
+
+<!-- تحرير -->
+<div class="veil" id="vEdit" hidden><div class="card">
+  <div class="grab" aria-hidden="true"></div>
+  <header><h2 id="edTitle">سؤال جديد</h2><button class="x" data-close title="إغلاق" aria-label="إغلاق"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></header>
+  <div class="in">
+    <div class="say bad" id="edBad" hidden></div>
+    <div class="say warn" id="edWarn" hidden></div>
+    <div class="f"><label for="edQ">السؤال</label>
+      <textarea id="edQ" style="min-height:92px"></textarea></div>
+    <div class="pair">
+      <div class="f"><label for="edA">الإجابة</label><input id="edA" type="text"></div>
+      <div class="f short"><label>الحرف</label><div class="drop" id="edLetter">
+        <button aria-haspopup="listbox"><span id="edLtTxt">أ</span>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2.4" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="pop" hidden><div class="grid" id="edLtGrid"></div></div>
+      </div></div>
+    </div>
+  </div>
+  <footer><button class="act go" id="edOk">حفظ</button>
+    <button class="act" data-close>إلغاء</button>
+    <div class="grow"></div>
+    <button class="act danger" id="edDel" hidden title="حذف السؤال" aria-label="حذف السؤال"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9 7V5h6v2M6 7l1 13h10l1-13"/></svg></button></footer>
 </div></div>
 
 <!-- رفع دفعة -->
-<div class="modal" id="mImp" hidden><div class="box">
-  <h2>رفع دفعة أسئلة</h2>
-  <div class="msg note">
-    الصق من إكسل أو جداول جوجل مباشرة، أو ارفع ملف CSV. عمودان
-    (<b>السؤال</b> ثم <b>الإجابة</b>) ويُستنتج الحرف من أول الإجابة،
-    أو ثلاثة أعمدة يكون أولها <b>الحرف</b>.
+<div class="veil" id="vImp" hidden><div class="card">
+  <div class="grab" aria-hidden="true"></div>
+  <header><h2>رفع دفعة أسئلة</h2><button class="x" data-close title="إغلاق" aria-label="إغلاق"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></header>
+  <div class="in">
+    <div class="say info">الصق من إكسل مباشرة، أو ارفع ملف CSV. عمودان — السؤال ثم
+      الإجابة — ويُستنتج الحرف من أول الإجابة، أو ثلاثة أعمدة أوّلها الحرف.</div>
+    <div class="f"><label class="drop-file">
+      <input id="impFile" type="file" accept=".csv,.tsv,.txt">
+      <span><b>اختر ملفاً</b> أو الصق في الصندوق أسفله</span></label></div>
+    <div class="f"><textarea id="impTxt" placeholder="ما أكبر قارات العالم مساحةً؟&#9;آسيا"></textarea></div>
+    <div id="impPrev"></div>
   </div>
-  <div class="fld"><input id="impFile" type="file" accept=".csv,.tsv,.txt"></div>
-  <div class="fld"><label for="impTxt">أو الصق هنا</label><textarea id="impTxt"
-    placeholder="ما أكبر قارات العالم مساحةً؟&#9;آسيا"></textarea></div>
-  <div class="msg err" id="impErr" hidden></div>
-  <div id="impPrev"></div>
-  <div class="foot">
-    <button class="btn pri" id="impOk" disabled>أضف المقبولة</button>
-    <button class="btn" id="impNo">إلغاء</button>
-  </div>
+  <footer><button class="act go" id="impOk" disabled>أضف</button>
+    <button class="act" data-close>إلغاء</button></footer>
 </div></div>
 
 <!-- المفتاح -->
-<div class="modal" id="mKey" hidden><div class="box">
-  <h2>تفعيل الحفظ</h2>
-  <div class="msg note">
-    اكتب اسمك والصق المفتاح الذي أرسله لك مسؤول الموقع. يُحفظان في هذا المتصفح
-    وحده ولا تحتاج إعادتهما. واسمك يُوقَّع به كل تعديل تحفظه.
+<div class="veil" id="vKey" hidden><div class="card">
+  <div class="grab" aria-hidden="true"></div>
+  <header><h2>تفعيل الحفظ</h2><button class="x" data-close title="إغلاق" aria-label="إغلاق"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></header>
+  <div class="in">
+    <div class="say info" id="keyIntro"></div>
+    <div class="f"><label for="keyName">اسمك</label>
+      <input id="keyName" type="text" placeholder="مثلاً: أبو عبد الله" autocomplete="off"></div>
+    <div class="f" id="keyField"><label for="keyIn">المفتاح</label>
+      <input id="keyIn" type="password" placeholder="github_pat_…" autocomplete="off"></div>
+    <div class="say" id="keySay" hidden></div>
+    <div id="keyInvite" hidden>
+      <hr class="rule">
+      <div class="f"><label for="inviteUrl">رابط تفعيل لمشرف جديد</label>
+        <input id="inviteUrl" type="text" readonly onclick="this.select()"></div>
+      <div class="say warn">يحمل الرابط المفتاح — أرسله في رسالة خاصة.</div>
+      <button class="act" id="inviteCopy">انسخ الرابط</button>
+    </div>
   </div>
-  <div class="fld"><label for="keyName">اسمك</label>
-    <input id="keyName" type="text" placeholder="مثلاً: أبو عبد الله" autocomplete="off"></div>
-  <div class="fld"><label for="keyIn">المفتاح</label>
-    <input id="keyIn" type="password" placeholder="github_pat_…" autocomplete="off"></div>
-  <div class="msg" id="keyMsg" hidden></div>
-  <details style="margin-bottom:12px">
-    <summary style="cursor:pointer;font-weight:600;font-size:13px">
-      لمسؤول الموقع: كيف أنشئ مفتاحاً لمشرف؟</summary>
-    <ol style="margin-top:8px;font-size:12.5px;color:var(--soft)">
-      <li>افتح <a href="https://github.com/settings/personal-access-tokens/new" target="_blank"
-        rel="noopener">صفحة إنشاء مفتاح دقيق</a> من حسابك.</li>
-      <li><b>Token name</b>: اسم المشرف، لتعرف أيّ مفتاح تلغي لاحقاً.</li>
-      <li><b>Repository access</b> ← <b>Only select repositories</b> ←
-        <code id="keyRepo">…</code> وحده.</li>
-      <li><b>Permissions → Repository permissions → Contents</b> =
-        <b>Read and write</b>. لا تعطِه شيئاً غيرها.</li>
-      <li><b>Generate token</b>، ثم أرسل الناتج للمشرف ليلصقه هنا مرة واحدة.</li>
-    </ol>
-    <p style="font-size:12.5px;color:var(--soft);margin:8px 0 0">
-      أنشئ مفتاحاً مستقلاً لكل مشرف، فتلغي مفتاح واحد دون أن تعطّل البقية.
-      والإلغاء من نفس الصفحة في أي وقت.</p>
-  </details>
-  <div class="foot">
-    <button class="btn pri" id="keyOk">تحقّق واحفظ</button>
-    <button class="btn dan grow" id="keyDel">امسح</button>
-    <button class="btn" id="keyNo">إغلاق</button>
-  </div>
+  <footer><button class="act go" id="keyOk">تحقّق واحفظ</button>
+    <div class="grow"></div>
+    <button class="act danger" id="keyDel">امسح المفتاح</button></footer>
 </div></div>
 
 <!-- الحفظ -->
-<div class="modal" id="mSave" hidden><div class="box">
-  <h2>حفظ التغييرات</h2>
-  <div id="saveList"></div>
-  <div class="fld" style="margin-top:12px"><label for="saveMsg">وصف التعديل</label>
-    <input id="saveMsg" type="text"></div>
-  <div class="msg" id="saveMsgBox" hidden></div>
-  <div class="foot">
-    <button class="btn pri" id="saveOk">ارفع إلى GitHub</button>
-    <button class="btn" id="saveNo">إلغاء</button>
+<div class="veil" id="vSave" hidden><div class="card">
+  <div class="grab" aria-hidden="true"></div>
+  <header><h2>مراجعة التغييرات</h2><button class="x" data-close title="إغلاق" aria-label="إغلاق"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></header>
+  <div class="in">
+    <div id="saveList"></div>
+    <div class="f" style="margin-top:13px"><label for="saveMsg">وصف التعديل</label>
+      <input id="saveMsg" type="text"></div>
+    <div class="say" id="saveSay" hidden></div>
   </div>
+  <footer><button class="act go" id="saveOk">تأكيد الحفظ</button>
+    <button class="act" data-close>إلغاء</button></footer>
 </div></div>
 
 <script>
 'use strict';
 
-/* ══════════ إعداد ══════════
-   يُستنتج المستودع من رابط الصفحة، ويعمل كما هو لو نُسخ المشروع لحساب آخر. */
+/* ══ المستودع: يُستنتج من الرابط فيعمل كما هو لو نُسخ لحساب آخر ══ */
 const REPO = (() => {
   const h = location.hostname, seg = location.pathname.split('/').filter(Boolean);
   if (h.endsWith('.github.io')) {
     const owner = h.slice(0, -'.github.io'.length);
     return { owner, repo: seg.length && !seg[0].endsWith('.html') ? seg[0] : h, branch: 'main' };
   }
-  return { owner: 'MAJ-10', repo: 'zad-alhuroof', branch: 'main' };   // تجربة محلية
+  return { owner: 'MAJ-10', repo: 'zad-alhuroof', branch: 'main' };
 })();
 const SLUG = REPO.owner + '/' + REPO.repo;
+const GH = 'https://api.github.com/repos/' + SLUG;
 
-const JSON_PATH = 'zad-alhuroof-questions.json';
-const HTML_PATH = 'index.html';
-const SW_PATH   = 'sw.js';
+const JSON_PATH = 'zad-alhuroof-questions.json', HTML_PATH = 'index.html', SW_PATH = 'sw.js';
 const BEGIN = '/* ══ بنك الأسئلة ══ مولَّد من zad-alhuroof-questions.json — لا تعدّله هنا */';
-const END   = '/* ══ نهاية بنك الأسئلة ══ */';
+const END = '/* ══ نهاية بنك الأسئلة ══ */';
 
 const L = ['ا','ب','ت','ث','ج','ح','خ','د','ذ','ر','ز','س','ش','ص','ض','ط','ظ','ع','غ','ف','ق','ك','ل','م','ن','ه','و','ي'];
 const SHOW = { 'ا':'أ', 'ه':'هـ' };
 const NAMES = {'ا':'الألف','ب':'الباء','ت':'التاء','ث':'الثاء','ج':'الجيم','ح':'الحاء','خ':'الخاء','د':'الدال','ذ':'الذال','ر':'الراء','ز':'الزاي','س':'السين','ش':'الشين','ص':'الصاد','ض':'الضاد','ط':'الطاء','ظ':'الظاء','ع':'العين','غ':'الغين','ف':'الفاء','ق':'القاف','ك':'الكاف','ل':'اللام','م':'الميم','ن':'النون','ه':'الهاء','و':'الواو','ي':'الياء'};
 const disp = x => SHOW[x] || x;
 const $ = s => document.querySelector(s);
-const esc = s => s.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-
-/* تمييز العدد في العربية: مفرد ومثنّى وجمع قلّة وتمييز منصوب */
-function plural(n, one, two, few, many) {
-  if (n === 1) return one;
-  if (n === 2) return two;
-  if (n >= 3 && n <= 10) return n + ' ' + few;
-  return n + ' ' + many;
-}
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const plural = (n, one, two, few, many) =>
+  n === 1 ? one : n === 2 ? two : (n >= 3 && n <= 10) ? n + ' ' + few : n + ' ' + many;
 const nQ = n => plural(n, 'سؤال واحد', 'سؤالان', 'أسئلة', 'سؤالاً');
-const nR = n => plural(n, 'نتيجة واحدة', 'نتيجتان', 'نتائج', 'نتيجة');
 
-/* ══════════ الحالة ══════════ */
-const st = {
-  data: null,          // البنك كما هو معروض
-  baseSha: null,       // بصمة الملف على GitHub عند التحميل
-  baseline: '',        // نصّ البنك عند التحميل، لمعرفة ما تغيّر
-  origin: new Map(),   // الصيغة الأصلية لكل سؤال، لتمييز المعدَّل
-  filter: null,        // الحرف المختار
-  onlyCh: false,
-  editing: null,       // { L, item } أو null للإضافة
-  imported: []
-};
-
-/* ══════════ أدوات عربية ══════════ */
 const NORM = { 'أ':'ا','إ':'ا','آ':'ا','ٱ':'ا','ة':'ه','ى':'ي' };
 const bare = s => s.replace(/[ً-ْٰ]/g, '').replace(/[أإآٱةى]/g, c => NORM[c]);
-/* الحرف المتوقَّع من الإجابة: أول حرف بعد تجاهل «ال» والأقواس */
+/* الحرف المتوقَّع من الإجابة. وأداة التعريف تُقصّ قبل التطبيع لا بعده:
+   «إلحاحا» تُطبَّع إلى «الحاحا»، فقصّها بعد التطبيع يبتر أول الكلمة
+   ويجعلها حاءً وهي ألف. فالقصّ للألف العارية وحدها. */
 function firstLetter(a) {
-  const t = bare(a.trim().replace(/^[«"“(]+/, '')).replace(/^ال/, '');
-  return t[0] || '';
+  let t = a.trim().replace(/^[«"“(]+/, '');
+  if (/^ال\S/.test(t)) t = t.slice(2);
+  return bare(t)[0] || '';
 }
 
-/* ══════════ تحميل ══════════ */
+/* ══ الحالة ══ */
+const st = { data: null, baseline: '', origin: new Map(), view: 'all',
+             letter: null, editing: null, imported: [] };
+
+/* ══ تحميل ══ */
 async function load() {
   const r = await fetch(JSON_PATH + '?t=' + Date.now(), { cache: 'no-store' });
   if (!r.ok) throw new Error('تعذّر تحميل بنك الأسئلة (' + r.status + ')');
   st.data = await r.json();
+  rebase();
+}
+function rebase() {
   st.baseline = JSON.stringify(st.data);
   st.origin = new Map();
   for (const g of st.data) for (const it of g.items) st.origin.set(it, { L: g.letter, q: it.q, a: it.a });
-  st.baseSha = null;
-  draw();
 }
-
 const group = x => st.data.find(g => g.letter === x);
 const total = () => st.data.reduce((n, g) => n + g.items.length, 0);
 const changed = () => JSON.stringify(st.data) !== st.baseline;
-
-/* حال كل سؤال: جديد أو معدَّل أو كما هو */
 function stateOf(Lx, it) {
   const o = st.origin.get(it);
-  if (!o) return 'new';
-  return (o.q !== it.q || o.a !== it.a || o.L !== Lx) ? 'edited' : '';
+  if (!o) return 'isnew';
+  return (o.q !== it.q || o.a !== it.a || o.L !== Lx) ? 'isedit' : '';
 }
-
-/* ══════════ العرض ══════════ */
-function draw() {
-  $('#stats').textContent = nQ(total()) + ' · ' + st.data.length + ' حرفاً · ' + SLUG;
-  const g = $('#letters');
-  g.innerHTML = L.map(x => {
-    const n = (group(x) || { items: [] }).items.length;
-    return '<button class="lt' + (st.filter === x ? ' on' : '') + '" data-l="' + x + '">' +
-           disp(x) + '<b>' + n + '</b></button>';
-  }).join('');
-  g.querySelectorAll('.lt').forEach(b => b.onclick = () => {
-    st.filter = st.filter === b.dataset.l ? null : b.dataset.l;
-    draw();
-  });
-  list();
-  const n = countChanges();
-  $('#bSave').disabled = !n;
-  $('#bSave').textContent = n ? 'حفظ (' + n + ')' : 'حفظ';
-  $('#bOnly').classList.toggle('pri', st.onlyCh);
+/* ملاحظة التحقّق على سؤال: نصّها أو فراغ */
+function noteOf(Lx, it) {
+  if (firstLetter(it.a) !== Lx) return 'لا تبدأ بحرف ' + NAMES[Lx];
+  const twin = group(Lx).items.find(x => x !== it && bare(x.q.trim()) === bare(it.q.trim()));
+  return twin ? 'سؤال مكرّر' : '';
 }
-
-function rows() {
-  const term = bare($('#q').value.trim().toLowerCase());
-  const out = [];
-  for (const gr of st.data) {
-    if (st.filter && gr.letter !== st.filter) continue;
-    for (const it of gr.items) {
-      const stt = stateOf(gr.letter, it);
-      if (st.onlyCh && !stt) continue;
-      if (term && !bare((it.q + ' ' + it.a).toLowerCase()).includes(term)) continue;
-      out.push({ L: gr.letter, it, stt });
-    }
-  }
-  return out;
-}
-
-function list() {
-  const rs = rows(), box = $('#list');
-  $('#count').textContent = nR(rs.length) + (rs.length > 400 ? ' — عُرض أول ٤٠٠' : '');
-  if (!rs.length) { box.innerHTML = '<div class="empty">لا نتائج</div>'; return; }
-  box.innerHTML = rs.slice(0, 400).map((r, i) => {
-    const bad = firstLetter(r.it.a) !== r.L;
-    return '<div class="row ' + r.stt + '" data-i="' + i + '">' +
-      '<div class="badge">' + disp(r.L) + '</div>' +
-      '<div class="qa"><div class="q">' + esc(r.it.q) + '</div>' +
-      '<div class="a">الإجابة: <b>' + esc(r.it.a) + '</b></div>' +
-      (bad ? '<span class="warn">الإجابة لا تبدأ بحرف ' + NAMES[r.L] + '</span>' : '') +
-      '</div><div class="acts">' +
-      '<button class="ico e" title="تعديل">✎</button>' +
-      '<button class="ico d" title="حذف">🗑</button>' +
-      '</div></div>';
-  }).join('');
-  const shown = rs.slice(0, 400);
-  box.querySelectorAll('.row').forEach(el => {
-    const r = shown[+el.dataset.i];
-    el.querySelector('.e').onclick = () => openEdit(r.L, r.it);
-    el.querySelector('.d').onclick = () => del(r.L, r.it);
-  });
-}
-
-function countChanges() { return diff().length; }
-
-/* قائمة ما تغيّر، للمراجعة ولرسالة الكوميت */
 function diff() {
-  const out = [];
-  const alive = new Set();
+  const out = [], alive = new Set();
   for (const gr of st.data) for (const it of gr.items) {
     alive.add(it);
-    const s = stateOf(gr.letter, it);
-    if (s === 'new') out.push({ t: 'إضافة', L: gr.letter, q: it.q, a: it.a });
-    else if (s === 'edited') {
-      const o = st.origin.get(it);
-      out.push({ t: 'تعديل', L: gr.letter, q: it.q, a: it.a, was: o });
-    }
+    const s = stateOf(gr.letter, it), o = st.origin.get(it);
+    if (s === 'isnew') out.push({ t: 'إضافة', L: gr.letter, it, was: null });
+    else if (s === 'isedit') out.push({ t: 'تعديل', L: gr.letter, it, was: o });
   }
-  for (const [it, o] of st.origin) if (!alive.has(it)) out.push({ t: 'حذف', L: o.L, q: o.q, a: o.a });
+  for (const [it, o] of st.origin)
+    if (!alive.has(it)) out.push({ t: 'حذف', L: o.L, it: null, was: o });
   return out;
 }
 
-/* ══════════ تحرير ══════════ */
-function openEdit(Lx, it) {
-  st.editing = it ? { L: Lx, item: it } : null;
-  $('#edTitle').textContent = it ? 'تعديل سؤال' : 'سؤال جديد';
-  $('#edL').innerHTML = L.map(x => '<option value="' + x + '">' + disp(x) + ' — ' + NAMES[x] + '</option>').join('');
-  $('#edL').value = Lx || 'ا';
-  $('#edQ').value = it ? it.q : '';
-  $('#edA').value = it ? it.a : '';
-  $('#edErr').hidden = $('#edWarn').hidden = true;
-  $('#mEdit').hidden = false;
-  $('#edQ').focus();
-}
-
-function checkEdit() {
-  const Lx = $('#edL').value, q = $('#edQ').value.trim(), a = $('#edA').value.trim();
-  if (!q) return { err: 'نصّ السؤال فارغ.' };
-  if (!a) return { err: 'الإجابة فارغة.' };
-  const cur = st.editing && st.editing.item;
-  const dup = (group(Lx) || { items: [] }).items.find(x => x !== cur && bare(x.q.trim()) === bare(q));
-  if (dup) return { err: 'هذا السؤال مكرّر في حرف ' + NAMES[Lx] + ' بإجابة «' + dup.a + '».' };
-  const warn = firstLetter(a) !== Lx
-    ? 'الإجابة «' + a + '» لا تبدأ بحرف ' + NAMES[Lx] + '. تأكّد أن هذا مقصود قبل الحفظ.'
-    : null;
-  return { Lx, q, a, warn };
-}
-
-$('#edOk').onclick = () => {
-  const v = checkEdit();
-  $('#edErr').hidden = !v.err;
-  if (v.err) { $('#edErr').textContent = v.err; return; }
-  if (v.warn && $('#edWarn').hidden) {           // التحذير يُعرض مرة ثم يُقبل
-    $('#edWarn').textContent = v.warn + ' اضغط «حفظ» مرة أخرى للتأكيد.';
-    $('#edWarn').hidden = false; return;
-  }
-  if (st.editing) {
-    const { L: oldL, item } = st.editing;
-    item.q = v.q; item.a = v.a;
-    if (oldL !== v.Lx) {                          // نقل بين حرفين
-      const from = group(oldL);
-      from.items.splice(from.items.indexOf(item), 1);
-      group(v.Lx).items.push(item);
+/* ══ العرض ══ */
+function rows() {
+  const term = bare($('#q').value.trim().toLowerCase());
+  const hit = t => !term || bare(t.toLowerCase()).includes(term);
+  const out = [];
+  const alive = new Set();
+  for (const gr of st.data) {
+    for (const it of gr.items) {
+      alive.add(it);
+      const s = stateOf(gr.letter, it);
+      if (st.view === 'diff' && !s) continue;
+      if (st.letter && gr.letter !== st.letter) continue;
+      const was = st.origin.get(it) || null;
+      if (!hit(it.q + ' ' + it.a + (was ? ' ' + was.q + ' ' + was.a : ''))) continue;
+      out.push({ L: gr.letter, it, s, was, note: noteOf(gr.letter, it) });
     }
-  } else {
-    group(v.Lx).items.push({ q: v.q, a: v.a });
   }
-  $('#mEdit').hidden = true;
-  draw();
-};
-$('#edNo').onclick = () => { $('#mEdit').hidden = true; };
-$('#bNew').onclick = () => openEdit(st.filter || 'ا', null);
-
-function del(Lx, it) {
-  if (!confirm('حذف هذا السؤال؟\n\n' + it.q + '\nالإجابة: ' + it.a)) return;
-  const gr = group(Lx);
-  gr.items.splice(gr.items.indexOf(it), 1);
-  draw();
+  /* المحذوف لا يبقى في البنك، فيُستخرج من الأصل ليظهر في التغييرات */
+  if (st.view === 'diff') {
+    for (const [it, o] of st.origin) {
+      if (alive.has(it)) continue;
+      if (st.letter && o.L !== st.letter) continue;
+      if (!hit(o.q + ' ' + o.a)) continue;
+      out.push({ L: o.L, it, s: 'isdel', was: o, note: '' });
+    }
+  }
+  return out;
 }
 
-/* ══════════ رفع دفعة ══════════ */
-function parseRows(text) {
-  const lines = text.replace(/\r/g, '').split('\n').filter(l => l.trim());
-  return lines.map(line => {
-    let cells = line.includes('\t') ? line.split('\t') : splitCsv(line);
-    cells = cells.map(c => c.trim().replace(/^"(.*)"$/s, '$1').trim());
-    if (cells.length >= 3 && L.includes(bare(cells[0]))) return { L: bare(cells[0]), q: cells[1], a: cells[2] };
-    if (cells.length >= 2) return { L: null, q: cells[0], a: cells[1] };
-    return { L: null, q: cells[0] || '', a: '' };
+function paint() {
+  $('#stats').textContent = SLUG;
+  const nd = diff().length;
+  $('#bSave').hidden = !nd;
+  $('#saveN').textContent = nd ? '(' + nd + ')' : '';
+  setBadge('#nDiff', nd);
+  $('#ltTxt').textContent = st.letter ? 'حرف ' + NAMES[st.letter] : 'كل الحروف';
+  drawLetterGrid();
+  paintList();
+}
+function setBadge(sel, n) {
+  const el = $(sel); el.textContent = n || ''; el.dataset.n = n;
+}
+function drawLetterGrid() {
+  for (const [id, cur] of [['#ltGrid', st.letter], ['#edLtGrid', st.editing ? st.editing.L : null]]) {
+    const g = $(id); if (!g) continue;
+    const withCount = id === '#ltGrid';
+    g.innerHTML = L.map(x =>
+      '<button data-l="' + x + '"' + (x === cur ? ' class="on"' : '') + '>' + disp(x) +
+      (withCount ? '<small>' + group(x).items.length + '</small>' : '') + '</button>').join('');
+  }
+  $('#ltAll').classList.toggle('on', !st.letter);
+}
+
+const PEN = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>';
+const UNDO = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14l-4-4 4-4"/><path d="M5 10h9a5 5 0 0 1 0 10h-3"/></svg>';
+
+/* ما تغيّر في هذا السؤال: من … إلى … */
+function wasHtml(r) {
+  if (r.s === 'isnew') return '<div class="was"><span class="to"><b>سؤال جديد</b></span></div>';
+  if (r.s === 'isdel') return '<div class="was"><span class="from"><b>محذوف</b> · الإجابة: ' +
+    esc(r.was.a) + '</span></div>';
+  if (r.s !== 'isedit' || !r.was) return '';
+  const bits = [];
+  if (r.was.q !== r.it.q) bits.push('<span class="from">السؤال كان: ' + esc(r.was.q) + '</span>');
+  if (r.was.a !== r.it.a) bits.push('<span class="from">الإجابة كانت: <b>' + esc(r.was.a) +
+    '</b> ← صارت: <b class="to">' + esc(r.it.a) + '</b></span>');
+  if (r.was.L !== r.L) bits.push('<span class="from">نُقل من حرف ' + NAMES[r.was.L] +
+    ' إلى ' + NAMES[r.L] + '</span>');
+  return bits.length ? '<div class="was">' + bits.join('') + '</div>' : '';
+}
+
+function paintList() {
+  const rs = rows(), box = $('#sheet');
+  $('#tally').textContent = rs.length === total() ? nQ(total()) : rs.length + ' من ' + total();
+  if (!rs.length) { box.innerHTML = blankFor(); return; }
+  const shown = rs.slice(0, 300);
+  const showWas = st.view === 'diff';
+  box.innerHTML = shown.map((r, i) => {
+    const q = r.s === 'isdel' ? r.was.q : r.it.q;
+    const a = r.s === 'isdel' ? r.was.a : r.it.a;
+    return '<div class="row ' + r.s + '" data-i="' + i + '">' +
+      '<span class="glyph">' + disp(r.L) + '</span>' +
+      '<div class="body"><div class="q">' + esc(q) + '</div>' +
+      '<div class="a">الإجابة: <b>' + esc(a) + '</b></div>' +
+      (showWas ? wasHtml(r) : '') + '</div>' +
+      (r.note ? '<span class="note">' + esc(r.note) + '</span>' : '') +
+      '<div class="ops"><button class="op act-row" title="' +
+        (r.s === 'isdel' ? 'تراجع عن الحذف' : 'تعديل') + '">' +
+        (r.s === 'isdel' ? UNDO : PEN) + '</button></div></div>';
+  }).join('') +
+    (rs.length > 300 ? '<div class="blank"><span>عُرض أول ٣٠٠ من ' + rs.length + ' — ضيّق البحث</span></div>' : '');
+  box.querySelectorAll('.row').forEach(el => {
+    const r = shown[+el.dataset.i];
+    el.querySelector('.act-row').onclick = () =>
+      r.s === 'isdel' ? restore(r) : openEdit(r.L, r.it);
   });
 }
+function restore(r) {
+  group(r.was.L).items.push(r.it);
+  paint();
+}
+function blankFor() {
+  if (st.view === 'diff') return '<div class="blank"><b>لا تغييرات</b>' +
+    '<span>عدّل أو أضف سؤالاً وسيظهر هنا قبل الرفع.</span></div>';
+  return '<div class="blank"><b>لا نتائج</b><span>جرّب كلمة أخرى أو حرفاً آخر.</span></div>';
+}
+
+/* ══ التصفية ══ */
+function setView(v) {
+  st.view = v;
+  document.querySelectorAll('#segs button').forEach(b => b.classList.toggle('on', b.dataset.v === v));
+  paint();
+}
+document.querySelectorAll('#segs button').forEach(b => b.onclick = () => setView(b.dataset.v));
+$('#q').oninput = () => paintList();
+
+/* ══ القوائم المنسدلة ══ */
+function bindDrop(id, onPick) {
+  const d = $(id), btn = d.querySelector('button'), pop = d.querySelector('.pop');
+  btn.onclick = e => {
+    e.stopPropagation();
+    const open = !pop.hidden;
+    closeDrops();
+    if (!open) { pop.hidden = false; d.classList.add('open'); }
+  };
+  pop.onclick = e => {
+    const t = e.target.closest('[data-l],.all,.item');
+    if (!t) return;
+    if (onPick) onPick(t.dataset.l !== undefined ? t.dataset.l : null, t);
+    if (!t.classList.contains('keep')) closeDrops();
+  };
+}
+function closeDrops() {
+  document.querySelectorAll('.drop').forEach(d => {
+    d.classList.remove('open');
+    const p = d.querySelector('.pop'); if (p) p.hidden = true;
+  });
+}
+document.addEventListener('click', closeDrops);
+bindDrop('#letters', v => { st.letter = v; paint(); });
+bindDrop('#edLetter', v => { if (v) { st.editing.L = v; $('#edLtTxt').textContent = disp(v); drawLetterGrid(); } });
+bindDrop('#menu');
+
+/* ══ تحرير ══ */
+/* الخانة تتكيّف مع نصّها: تكبر سطراً بسطر ولا تُسحب باليد */
+function grow(el) {
+  el.style.height = 'auto';
+  el.style.height = el.scrollHeight + 'px';
+}
+$('#edQ').addEventListener('input', e => grow(e.target));
+
+function openEdit(Lx, it) {
+  st.editing = { L: Lx || st.letter || 'ا', item: it || null };
+  $('#edTitle').textContent = it ? 'تعديل سؤال' : 'سؤال جديد';
+  $('#edLtTxt').textContent = disp(st.editing.L);
+  drawLetterGrid();
+  $('#edQ').value = it ? it.q : '';
+  $('#edA').value = it ? it.a : '';
+  $('#edBad').hidden = $('#edWarn').hidden = true;
+  $('#edDel').hidden = !it;
+  openVeil($('#vEdit'));
+  grow($('#edQ'));
+  $('#edQ').focus();
+}
+$('#edDel').onclick = () => {
+  const it = st.editing && st.editing.item;
+  if (!it) return;
+  if (!confirm('حذف هذا السؤال؟\n\n' + it.q + '\nالإجابة: ' + it.a)) return;
+  const gr = st.data.find(g => g.items.includes(it));
+  gr.items.splice(gr.items.indexOf(it), 1);
+  closeVeil($('#vEdit'));
+  paint();
+};
+$('#bNew').onclick = () => openEdit(null, null);
+$('#edOk').onclick = () => {
+  const Lx = st.editing.L, q = $('#edQ').value.trim(), a = $('#edA').value.trim();
+  const bad = $('#edBad'), warn = $('#edWarn');
+  bad.hidden = false;
+  if (!q) { bad.textContent = 'نصّ السؤال فارغ.'; return; }
+  if (!a) { bad.textContent = 'الإجابة فارغة.'; return; }
+  const cur = st.editing.item;
+  const twin = group(Lx).items.find(x => x !== cur && bare(x.q.trim()) === bare(q));
+  if (twin) { bad.textContent = 'مكرّر في حرف ' + NAMES[Lx] + ' بإجابة «' + twin.a + '».'; return; }
+  bad.hidden = true;
+  if (firstLetter(a) !== Lx && warn.hidden) {
+    warn.textContent = 'الإجابة «' + a + '» لا تبدأ بحرف ' + NAMES[Lx] +
+      '. اضغط «حفظ» مرة أخرى إن كان مقصوداً.';
+    warn.hidden = false; return;
+  }
+  if (cur) {
+    const from = st.origin.get(cur) ? null : null;
+    cur.q = q; cur.a = a;
+    const old = st.data.find(g => g.items.includes(cur));
+    if (old.letter !== Lx) { old.items.splice(old.items.indexOf(cur), 1); group(Lx).items.push(cur); }
+  } else group(Lx).items.push({ q, a });
+  closeVeil($('#vEdit'));
+  paint();
+};
+
+/* ══ رفع دفعة ══ */
 function splitCsv(line) {
   const out = []; let cur = '', qt = false;
   for (let i = 0; i < line.length; i++) {
@@ -446,21 +723,23 @@ function splitCsv(line) {
   }
   out.push(cur); return out;
 }
-
 function preview(text) {
-  const raw = parseRows(text);
+  const lines = text.replace(/\r/g, '').split('\n').filter(l => l.trim());
   const seen = new Set();
-  st.imported = raw.map(r => {
-    const q = (r.q || '').trim(), a = (r.a || '').trim();
-    let Lx = r.L, why = '';
+  st.imported = lines.map(line => {
+    let c = (line.includes('\t') ? line.split('\t') : splitCsv(line))
+      .map(x => x.trim().replace(/^"(.*)"$/s, '$1').trim());
+    let Lx = null, q, a;
+    if (c.length >= 3 && L.includes(bare(c[0]))) { Lx = bare(c[0]); q = c[1]; a = c[2]; }
+    else { q = c[0] || ''; a = c[1] || ''; }
+    let why = '';
     if (!q || !a) why = 'سؤال أو إجابة فارغة';
     else {
-      if (!Lx) { Lx = firstLetter(a); if (!L.includes(Lx)) why = 'تعذّر استنتاج الحرف من «' + a + '»'; }
+      if (!Lx) { Lx = firstLetter(a); if (!L.includes(Lx)) why = 'تعذّر استنتاج الحرف'; }
       if (!why) {
         const key = Lx + '|' + bare(q);
         if (seen.has(key)) why = 'مكرّر داخل الدفعة';
-        else if ((group(Lx) || { items: [] }).items.some(x => bare(x.q.trim()) === bare(q)))
-          why = 'موجود في البنك';
+        else if (group(Lx).items.some(x => bare(x.q.trim()) === bare(q))) why = 'موجود في البنك';
         else seen.add(key);
       }
     }
@@ -468,45 +747,109 @@ function preview(text) {
   });
   const ok = st.imported.filter(x => x.ok).length;
   $('#impPrev').innerHTML =
-    '<div class="msg ' + (ok ? 'ok' : 'warn') + '">' + nQ(ok) + ' مقبول من ' +
-    st.imported.length + '</div><div class="scroll"><table><tr><th>الحرف</th><th>السؤال</th>' +
-    '<th>الإجابة</th><th>الحال</th></tr>' +
-    st.imported.map(x => '<tr class="' + (x.ok ? '' : (x.why.includes('مكرّر') || x.why.includes('موجود') ? 'dup' : 'bad')) + '">' +
-      '<td>' + esc(x.Lx ? disp(x.Lx) : '—') + '</td><td>' + esc(x.q.slice(0, 70)) + '</td>' +
-      '<td>' + esc(x.a.slice(0, 30)) + '</td><td>' + (x.ok ? '✓' : esc(x.why)) + '</td></tr>').join('') +
+    '<div class="say ' + (ok ? 'good' : 'warn') + '">' + nQ(ok) + ' مقبول من ' +
+    st.imported.length + '</div><div class="pane"><table><tr><th>الحرف</th><th>السؤال</th>' +
+    '<th>الإجابة</th><th>الحال</th></tr>' + st.imported.map(x =>
+      '<tr class="' + (x.ok ? '' : (/مكرّر|موجود/.test(x.why) ? 'dup' : 'no')) + '"><td>' +
+      esc(x.Lx ? disp(x.Lx) : '—') + '</td><td>' + esc(x.q.slice(0, 64)) + '</td><td>' +
+      esc(x.a.slice(0, 26)) + '</td><td>' + (x.ok ? '✓' : esc(x.why)) + '</td></tr>').join('') +
     '</table></div>';
   $('#impOk').disabled = !ok;
-  $('#impOk').textContent = 'أضف ' + nQ(ok);
+  $('#impOk').textContent = ok ? 'أضف ' + nQ(ok) : 'أضف';
 }
-
-$('#bImp').onclick = () => {
-  $('#impTxt').value = ''; $('#impPrev').innerHTML = ''; $('#impErr').hidden = true;
-  $('#impOk').disabled = true; $('#impOk').textContent = 'أضف المقبولة';
-  $('#mImp').hidden = false;
+$('#mImport').onclick = () => {
+  $('#impTxt').value = ''; $('#impPrev').innerHTML = '';
+  $('#impOk').disabled = true; $('#impOk').textContent = 'أضف';
+  openVeil($('#vImp'));
 };
-$('#impTxt').oninput = e => { if (e.target.value.trim()) preview(e.target.value); else $('#impPrev').innerHTML = ''; };
+$('#impTxt').oninput = e => e.target.value.trim() ? preview(e.target.value) : ($('#impPrev').innerHTML = '');
 $('#impFile').onchange = async e => {
   const f = e.target.files[0]; if (!f) return;
-  const t = await f.text();
-  $('#impTxt').value = t; preview(t);
+  const t = await f.text(); $('#impTxt').value = t; preview(t);
 };
 $('#impOk').onclick = () => {
   let n = 0;
   for (const x of st.imported) if (x.ok) { group(x.Lx).items.push({ q: x.q, a: x.a }); n++; }
-  $('#mImp').hidden = true; draw();
+  closeVeil($('#vImp')); setView('diff');
   alert('أُضيف ' + nQ(n) + ' إلى اللوحة. اضغط «حفظ» للرفع.');
 };
-$('#impNo').onclick = () => { $('#mImp').hidden = true; };
 
-/* ══════════ تصدير ══════════ */
-$('#bExp').onclick = () => {
-  const blob = new Blob([JSON.stringify(st.data, null, 4)], { type: 'application/json' });
+/* ══ تصدير Excel ══
+   xlsx ملف zip فيه XML، نكتبه بأنفسنا بلا مكتبة. وCSV لا يصلح لأن
+   إكسل العربي يقسّم على الفاصلة المنقوطة فتتفكّك الأعمدة. */
+const CRC_T = (() => { const t = new Uint32Array(256);
+  for (let n = 0; n < 256; n++) { let c = n;
+    for (let k = 0; k < 8; k++) c = (c & 1) ? (0xEDB88320 ^ (c >>> 1)) : (c >>> 1); t[n] = c >>> 0; }
+  return t; })();
+function crc32(b) { let c = 0xFFFFFFFF;
+  for (let i = 0; i < b.length; i++) c = CRC_T[(c ^ b[i]) & 0xFF] ^ (c >>> 8);
+  return (c ^ 0xFFFFFFFF) >>> 0; }
+function zipStore(files) {
+  const enc = new TextEncoder();
+  const u16 = n => [n & 255, (n >> 8) & 255];
+  const u32 = n => [n & 255, (n >> 8) & 255, (n >> 16) & 255, (n >>> 24) & 255];
+  const parts = [], dir = []; let off = 0;
+  for (const f of files) {
+    const name = enc.encode(f.name), data = enc.encode(f.text);
+    const crc = crc32(data), len = data.length;
+    const head = new Uint8Array([...u32(0x04034b50), ...u16(20), ...u16(0x0800), ...u16(0),
+      ...u16(0), ...u16(0), ...u32(crc), ...u32(len), ...u32(len), ...u16(name.length), ...u16(0)]);
+    parts.push(head, name, data);
+    dir.push(new Uint8Array([...u32(0x02014b50), ...u16(20), ...u16(20), ...u16(0x0800),
+      ...u16(0), ...u16(0), ...u16(0), ...u32(crc), ...u32(len), ...u32(len),
+      ...u16(name.length), ...u16(0), ...u16(0), ...u16(0), ...u16(0), ...u32(0), ...u32(off)]), name);
+    off += head.length + name.length + len;
+  }
+  const dl = dir.reduce((n, p) => n + p.length, 0);
+  dir.push(new Uint8Array([...u32(0x06054b50), ...u16(0), ...u16(0),
+    ...u16(files.length), ...u16(files.length), ...u32(dl), ...u32(off), ...u16(0)]));
+  return new Blob([...parts, ...dir],
+    { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+}
+const xesc = s => String(s).replace(/[&<>"']/g, c =>
+  ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&apos;' }[c]))
+  .replace(/[\x00-\x08\x0B\x0C\x0E-\x1F]/g, '');
+function xlsx(rows) {
+  const sheet = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' +
+    '<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">' +
+    '<sheetViews><sheetView rightToLeft="1" tabSelected="1" workbookViewId="0">' +
+    '<pane ySplit="1" topLeftCell="A2" activePane="bottomLeft" state="frozen"/></sheetView></sheetViews>' +
+    '<cols><col min="1" max="1" width="8" customWidth="1"/><col min="2" max="2" width="70" customWidth="1"/>' +
+    '<col min="3" max="3" width="28" customWidth="1"/></cols><sheetData>' +
+    rows.map((r, i) => '<row r="' + (i + 1) + '">' + ['A','B','C'].map((col, k) =>
+      '<c r="' + col + (i + 1) + '" t="inlineStr"><is><t xml:space="preserve">' +
+      xesc(r[k]) + '</t></is></c>').join('') + '</row>').join('') +
+    '</sheetData></worksheet>';
+  return zipStore([
+    { name: '[Content_Types].xml', text: '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' +
+      '<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">' +
+      '<Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>' +
+      '<Default Extension="xml" ContentType="application/xml"/>' +
+      '<Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/>' +
+      '<Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/></Types>' },
+    { name: '_rels/.rels', text: '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' +
+      '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">' +
+      '<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>' },
+    { name: 'xl/workbook.xml', text: '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' +
+      '<workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" ' +
+      'xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">' +
+      '<sheets><sheet name="زاد الحروف" sheetId="1" r:id="rId1"/></sheets></workbook>' },
+    { name: 'xl/_rels/workbook.xml.rels', text: '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' +
+      '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">' +
+      '<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/></Relationships>' },
+    { name: 'xl/worksheets/sheet1.xml', text: sheet }
+  ]);
+}
+$('#mExport').onclick = () => {
+  const rows = [['الحرف', 'السؤال', 'الإجابة']];
+  for (const g of st.data) for (const it of g.items) rows.push([disp(g.letter), it.q, it.a]);
   const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob); a.download = JSON_PATH;
+  a.href = URL.createObjectURL(xlsx(rows));
+  a.download = 'زاد-الحروف-' + new Date().toISOString().slice(0, 10) + '.xlsx';
   a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000);
 };
 
-/* ══════════ المفتاح ══════════ */
+/* ══ المفتاح ══ */
 const KEY = 'zh_gh_token', WHO = 'zh_editor';
 const tok = () => { try { return localStorage.getItem(KEY) || ''; } catch (e) { return ''; } };
 const who = () => { try { return localStorage.getItem(WHO) || ''; } catch (e) { return ''; } };
@@ -515,48 +858,70 @@ function keyState() {
   $('#keyDot').classList.toggle('on', has);
   $('#keyTxt').textContent = has ? (who() || 'مفعَّل') : 'تفعيل الحفظ';
 }
-$('#bKey').onclick = () => {
-  $('#keyRepo').textContent = SLUG;
-  $('#keyName').value = who(); $('#keyIn').value = ''; $('#keyMsg').hidden = true;
-  $('#mKey').hidden = false;
-  $('#keyName').focus();
-};
-$('#keyNo').onclick = () => { $('#mKey').hidden = true; };
+function openKey(note) {
+  const has = !!tok();
+  $('#keyName').value = who(); $('#keyIn').value = '';
+  $('#keyField').hidden = has;
+  $('#keyInvite').hidden = !has;
+  if (has) $('#inviteUrl').value = location.origin + location.pathname + '#k=' + encodeURIComponent(tok());
+  $('#keyIntro').textContent = has
+    ? 'الحفظ مفعَّل في هذا الجهاز. اكتب اسمك ليُوقَّع به كل تعديل تحفظه.'
+    : 'اكتب اسمك والصق المفتاح الذي أرسله لك مسؤول الموقع. يُحفظان في هذا المتصفح وحده.';
+  const s = $('#keySay'); s.hidden = !note;
+  if (note) { s.className = 'say good'; s.textContent = note; }
+  openVeil($('#vKey')); $('#keyName').focus();
+}
+$('#mKeyOpen').onclick = () => openKey();
 $('#keyDel').onclick = () => {
   localStorage.removeItem(KEY); localStorage.removeItem(WHO);
-  keyState(); $('#mKey').hidden = true;
+  keyState(); closeVeil($('#vKey'));
+};
+$('#inviteCopy').onclick = async () => {
+  const el = $('#inviteUrl'); el.select();
+  try { await navigator.clipboard.writeText(el.value); } catch (e) { document.execCommand('copy'); }
+  $('#inviteCopy').textContent = 'نُسخ ✓';
+  setTimeout(() => { $('#inviteCopy').textContent = 'انسخ الرابط'; }, 1600);
 };
 $('#keyOk').onclick = async () => {
-  const name = $('#keyName').value.trim(), t = $('#keyIn').value.trim();
-  const box = $('#keyMsg'); box.hidden = false; box.className = 'msg err';
-  if (!name) { box.textContent = 'اكتب اسمك ليُوقَّع به تعديلك.'; return; }
-  if (!t) { box.textContent = 'الصق المفتاح أولاً.'; return; }
-  box.className = 'msg note'; box.textContent = 'أتحقّق…';
+  const name = $('#keyName').value.trim(), t = tok() || $('#keyIn').value.trim();
+  const s = $('#keySay'); s.hidden = false; s.className = 'say bad';
+  if (!name) { s.textContent = 'اكتب اسمك ليُوقَّع به تعديلك.'; return; }
+  if (!t) { s.textContent = 'الصق المفتاح، أو اطلب من مسؤول الموقع رابط تفعيل.'; return; }
+  s.className = 'say info'; s.textContent = 'أتحقّق…';
   try {
     const r = await api('https://api.github.com/repos/' + SLUG, {}, t);
-    if (!r.permissions || !r.permissions.push)
-      throw new Error('هذا المفتاح لا يملك صلاحية الكتابة. اطلب من مسؤول الموقع مفتاحاً بصلاحية Contents: Read and write.');
-    localStorage.setItem(KEY, t);
-    localStorage.setItem(WHO, name);
+    if (!r.permissions || !r.permissions.push) throw new Error('هذا المفتاح لا يملك صلاحية الكتابة.');
+    localStorage.setItem(KEY, t); localStorage.setItem(WHO, name);
     keyState();
-    box.className = 'msg ok'; box.textContent = 'تمام يا ' + name + ' — الحفظ مفعَّل.';
-    setTimeout(() => { $('#mKey').hidden = true; }, 1300);
-  } catch (e) {
-    box.className = 'msg err'; box.textContent = e.message;
-  }
+    s.className = 'say good'; s.textContent = 'تمام يا ' + name + ' — الحفظ مفعَّل.';
+    setTimeout(() => closeVeil($('#vKey')), 1200);
+  } catch (e) { s.className = 'say bad'; s.textContent = e.message; }
 };
+async function setupFromLink() {
+  const m = location.hash.match(/[#&]k=([^&]+)/);
+  if (!m) return;
+  const t = decodeURIComponent(m[1]);
+  history.replaceState(null, '', location.pathname + location.search);
+  try {
+    const r = await api('https://api.github.com/repos/' + SLUG, {}, t);
+    if (!r.permissions || !r.permissions.push) throw new Error('رابط بلا صلاحية كتابة.');
+    localStorage.setItem(KEY, t); keyState();
+    openKey('فُعِّل الحفظ في هذا الجهاز. اكتب اسمك، ولن تحتاج الرابط بعدها.');
+  } catch (e) {
+    openKey();
+    const s = $('#keySay'); s.hidden = false; s.className = 'say bad';
+    s.textContent = 'رابط التفعيل لم يعد صالحاً (' + e.message + ').';
+  }
+}
 
-/* ══════════ GitHub ══════════ */
+/* ══ GitHub ══ */
 async function api(url, opt = {}, token) {
-  const r = await fetch(url, Object.assign({}, opt, {
-    headers: Object.assign({
-      'Accept': 'application/vnd.github+json',
-      'Authorization': 'Bearer ' + (token || tok()),
-      'X-GitHub-Api-Version': '2022-11-28'
-    }, opt.body ? { 'Content-Type': 'application/json' } : {})
-  }));
-  const txt = await r.text();
-  const body = txt ? JSON.parse(txt) : {};
+  const t = token || tok();
+  const h = { 'Accept': 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28' };
+  if (t) h.Authorization = 'Bearer ' + t;
+  if (opt.body) h['Content-Type'] = 'application/json';
+  const r = await fetch(url, Object.assign({}, opt, { headers: h }));
+  const txt = await r.text(), body = txt ? JSON.parse(txt) : {};
   if (!r.ok) {
     if (r.status === 401) throw new Error('المفتاح غير صالح أو انتهت مدّته.');
     if (r.status === 403) throw new Error('المفتاح لا يملك الصلاحية المطلوبة على ' + SLUG + '.');
@@ -565,138 +930,179 @@ async function api(url, opt = {}, token) {
   }
   return body;
 }
-const GH = 'https://api.github.com/repos/' + SLUG;
-
-function b64(str) {                                  // UTF-8 → base64 بلا انفجار المكدّس
-  const bytes = new TextEncoder().encode(str);
-  let s = '';
-  for (let i = 0; i < bytes.length; i += 0x8000) s += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x8000));
+function b64(str) {
+  const b = new TextEncoder().encode(str); let s = '';
+  for (let i = 0; i < b.length; i += 0x8000) s += String.fromCharCode.apply(null, b.subarray(i, i + 0x8000));
   return btoa(s);
 }
 async function sha256(str) {
-  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
-  return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, '0')).join('');
+  const b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+  return [...new Uint8Array(b)].map(x => x.toString(16).padStart(2, '0')).join('');
 }
-
-/* نفس ما يفعله build.py بالضبط */
 function buildHtml(html, data) {
   const i = html.indexOf(BEGIN), j = html.indexOf(END);
   if (i < 0 || j < 0) throw new Error('لم أجد علامتي البنك في index.html.');
   return html.slice(0, i) + BEGIN + '\n' + 'const RAW = ' + JSON.stringify(data) + ';\n' +
          END + html.slice(j + END.length);
 }
-function buildSw(sw, version) {
+function buildSw(sw, v) {
   const re = /^const VERSION = '[^']*';(\s*\/\* ══ بصمة البناء ══ \*\/)$/m;
   if (!re.test(sw)) throw new Error('لم أجد سطر البصمة في sw.js.');
-  return sw.replace(re, (m, tail) => "const VERSION = '" + version + "';" + tail);
+  return sw.replace(re, (m, tail) => "const VERSION = '" + v + "';" + tail);
 }
-
-/* قراءة خام لا بـbase64: واجهة المحتوى المُرمَّزة تتوقّف عند ميجابايت،
-   وindex.html يكبر مع كل سؤال يُضاف. الخام يبلغ مئة ميجابايت. */
 async function getFile(path) {
   const r = await fetch(GH + '/contents/' + path + '?ref=' + REPO.branch, {
-    headers: {
-      'Accept': 'application/vnd.github.raw',
-      'Authorization': 'Bearer ' + tok(),
-      'X-GitHub-Api-Version': '2022-11-28'
-    }
-  });
-  if (!r.ok) throw new Error('تعذّرت قراءة ' + path + ' من المستودع (' + r.status + ').');
+    headers: { 'Accept': 'application/vnd.github.raw', 'Authorization': 'Bearer ' + tok(),
+               'X-GitHub-Api-Version': '2022-11-28' } });
+  if (!r.ok) throw new Error('تعذّرت قراءة ' + path + ' (' + r.status + ').');
   return r.text();
 }
-
 async function commitAll(message) {
-  /* ١. الوضع الحالي للفرع */
   const ref = await api(GH + '/git/ref/heads/' + REPO.branch);
   const head = ref.object.sha;
   const headCommit = await api(GH + '/git/commits/' + head);
-
-  /* ٢. ابنِ الملفات الثلاثة من البنك الجديد — نفس ما يفعله build.py */
   const jsonTxt = JSON.stringify(st.data, null, 4);
   const htmlTxt = buildHtml(await getFile(HTML_PATH), st.data);
   const swTxt = buildSw(await getFile(SW_PATH), (await sha256(htmlTxt)).slice(0, 12));
-
-  /* ٣. ارفع المحتوى ثم اصنع شجرة وكوميتاً */
-  const files = [[JSON_PATH, jsonTxt], [HTML_PATH, htmlTxt], [SW_PATH, swTxt]];
   const tree = [];
-  for (const [path, content] of files) {
-    const blob = await api(GH + '/git/blobs', {
-      method: 'POST', body: JSON.stringify({ content: b64(content), encoding: 'base64' })
-    });
+  for (const [path, content] of [[JSON_PATH, jsonTxt], [HTML_PATH, htmlTxt], [SW_PATH, swTxt]]) {
+    const blob = await api(GH + '/git/blobs', { method: 'POST',
+      body: JSON.stringify({ content: b64(content), encoding: 'base64' }) });
     tree.push({ path, mode: '100644', type: 'blob', sha: blob.sha });
   }
-  const newTree = await api(GH + '/git/trees', {
-    method: 'POST', body: JSON.stringify({ base_tree: headCommit.tree.sha, tree })
-  });
-  /* التوقيع باسم من حفظ، ولو كان المفتاح مشتركاً، ليُعرف صاحب كل تعديل */
+  const newTree = await api(GH + '/git/trees', { method: 'POST',
+    body: JSON.stringify({ base_tree: headCommit.tree.sha, tree }) });
   const author = { name: who() || 'لوحة الأسئلة', email: 'zad-alhuroof@users.noreply.github.com' };
-  const commit = await api(GH + '/git/commits', {
-    method: 'POST',
-    body: JSON.stringify({ message, tree: newTree.sha, parents: [head], author })
-  });
-  /* ٤. حرّك الفرع — يفشل لو دفع أحد قبلك، فلا يُمحى عمله */
-  await api(GH + '/git/refs/heads/' + REPO.branch, {
-    method: 'PATCH', body: JSON.stringify({ sha: commit.sha, force: false })
-  });
+  const commit = await api(GH + '/git/commits', { method: 'POST',
+    body: JSON.stringify({ message, tree: newTree.sha, parents: [head], author }) });
+  await api(GH + '/git/refs/heads/' + REPO.branch, { method: 'PATCH',
+    body: JSON.stringify({ sha: commit.sha, force: false }) });
   return commit.sha;
 }
 
-/* ══════════ الحفظ ══════════ */
+/* ══ الحفظ ══ */
 $('#bSave').onclick = () => {
-  const d = diff();
-  const n = { 'إضافة': 0, 'تعديل': 0, 'حذف': 0 };
+  const d = diff(), n = { 'إضافة': 0, 'تعديل': 0, 'حذف': 0 };
   d.forEach(x => n[x.t]++);
-  const parts = Object.entries(n).filter(([, v]) => v).map(([k, v]) => k + ' ' + v);
-  $('#saveMsg').value = 'تحديث بنك الأسئلة: ' + parts.join('، ');
-  $('#saveList').innerHTML = '<div class="scroll"><table><tr><th>العملية</th><th>الحرف</th>' +
-    '<th>السؤال</th><th>الإجابة</th></tr>' +
-    d.map(x => '<tr><td>' + x.t + '</td><td>' + disp(x.L) + '</td><td>' +
-      esc(x.q.slice(0, 60)) + '</td><td>' + esc(x.a.slice(0, 26)) + '</td></tr>').join('') +
-    '</table></div>';
-  const box = $('#saveMsgBox');
+  $('#saveMsg').value = 'تحديث بنك الأسئلة: ' +
+    Object.entries(n).filter(([, v]) => v).map(([k, v]) => k + ' ' + v).join('، ');
+  const side = (o, cls) => o
+    ? '<div class="' + cls + '">' + esc(o.q.slice(0, 70)) + '<br><b>' + esc(o.a) + '</b></div>'
+    : '<div class="none">—</div>';
+  $('#saveList').innerHTML = '<div class="pane"><table><tr><th>العملية</th><th>الحرف</th>' +
+    '<th>قبل</th><th>بعد</th></tr>' + d.map(x =>
+      '<tr><td>' + x.t + '</td><td>' + disp(x.L) + '</td>' +
+      '<td>' + side(x.was, 'before') + '</td>' +
+      '<td>' + side(x.it, 'after') + '</td></tr>').join('') + '</table></div>';
+  const s = $('#saveSay');
   if (!tok()) {
-    box.className = 'msg warn'; box.hidden = false;
-    box.textContent = 'لا مفتاح محفوظ — أضف مفتاحاً للحفظ المباشر، أو استعمل «تصدير» وأرسل الملف.';
+    s.hidden = false; s.className = 'say warn';
+    s.textContent = 'لا مفتاح محفوظ — فعّل الحفظ من قائمة «⋯»، أو صدّر الملف وأرسله للمسؤول.';
     $('#saveOk').disabled = true;
-  } else { box.hidden = true; $('#saveOk').disabled = false; }
-  $('#mSave').hidden = false;
+  } else { s.hidden = true; $('#saveOk').disabled = false; }
+  openVeil($('#vSave'));
 };
-$('#saveNo').onclick = () => { $('#mSave').hidden = true; };
 $('#saveOk').onclick = async () => {
-  const btn = $('#saveOk'), box = $('#saveMsgBox');
-  btn.disabled = true;
-  box.hidden = false; box.className = 'msg note'; box.textContent = 'أرفع إلى GitHub…';
+  const b = $('#saveOk'), s = $('#saveSay');
+  b.disabled = true; s.hidden = false; s.className = 'say info'; s.textContent = 'أرفع…';
   try {
     const sha = await commitAll($('#saveMsg').value.trim() || 'تحديث بنك الأسئلة');
-    box.className = 'msg ok';
-    box.innerHTML = 'تمّ الرفع — الكوميت <code>' + sha.slice(0, 7) + '</code>. ' +
-      'الموقع يتحدّث خلال دقيقة أو دقيقتين.';
-    st.baseline = JSON.stringify(st.data);
-    st.origin = new Map();
-    for (const g of st.data) for (const it of g.items) st.origin.set(it, { L: g.letter, q: it.q, a: it.a });
-    draw();
-    setTimeout(() => { $('#mSave').hidden = true; }, 2500);
+    s.className = 'say good';
+    s.innerHTML = 'تمّ الرفع — <code>' + sha.slice(0, 7) + '</code>. الموقع يتحدّث خلال دقيقة أو دقيقتين.';
+    rebase(); paint();
+    setTimeout(() => closeVeil($('#vSave')), 2400);
   } catch (e) {
-    box.className = 'msg err';
-    box.textContent = /not a fast forward|is at/i.test(e.message)
-      ? 'عدّل أحدهم البنك قبلك. حدّث الصفحة وأعد تعديلك حتى لا يُمحى عمله.'
-      : e.message;
-    btn.disabled = false;
+    s.className = 'say bad';
+    s.textContent = /not a fast forward|is at/i.test(e.message)
+      ? 'عدّل أحدهم البنك قبلك. حدّث الصفحة وأعد تعديلك حتى لا يُمحى عمله.' : e.message;
+    b.disabled = false;
   }
 };
 
-/* ══════════ تشغيل ══════════ */
-$('#q').oninput = () => list();
-$('#bOnly').onclick = () => { st.onlyCh = !st.onlyCh; draw(); };
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') document.querySelectorAll('.modal').forEach(m => m.hidden = true);
+/* ══ عام ══ */
+/* ══ النوافذ: فتح وإغلاق سلسان، وسحب للأسفل يغلق ══ */
+function openVeil(v) {
+  v.classList.remove('out');
+  v.style.removeProperty('--o');
+  const c = v.querySelector('.card');
+  c.classList.remove('dragging');
+  c.style.transform = '';
+  v.hidden = false;
+}
+function closeVeil(v) {
+  if (!v || v.hidden || v.classList.contains('out')) return;
+  v.classList.add('out');
+  const done = () => {
+    v.hidden = true;
+    v.classList.remove('out');
+    v.style.removeProperty('--o');
+    const c = v.querySelector('.card');
+    c.classList.remove('dragging');
+    c.style.transform = '';
+  };
+  const c = v.querySelector('.card');
+  let fired = false;
+  const once = () => { if (!fired) { fired = true; done(); } };
+  c.addEventListener('animationend', once, { once: true });
+  setTimeout(once, 320);                       // شبكة أمان لو لم يُطلق الحدث
+}
+const closeAll = () => document.querySelectorAll('.veil:not([hidden])').forEach(closeVeil);
+
+document.querySelectorAll('[data-close]').forEach(b =>
+  b.onclick = () => closeVeil(b.closest('.veil')));
+/* الضغط على الغطاء يغلق */
+document.querySelectorAll('.veil').forEach(v =>
+  v.addEventListener('pointerdown', e => { if (e.target === v) closeVeil(v); }));
+
+/* السحب للأسفل على الجوال: من المقبض والترويسة وحدهما،
+   فلا يتعارض السحب مع تمرير جسم النافذة. */
+document.querySelectorAll('.veil').forEach(v => {
+  const card = v.querySelector('.card');
+  let id = null, y0 = 0, dy = 0;
+  const grip = e => innerWidth <= 640 && !e.target.closest('.in') && !e.target.closest('button');
+  card.addEventListener('pointerdown', e => {
+    if (!grip(e)) return;
+    id = e.pointerId; y0 = e.clientY; dy = 0;
+    card.classList.add('dragging');
+    card.setPointerCapture(id);
+  });
+  card.addEventListener('pointermove', e => {
+    if (id !== e.pointerId) return;
+    dy = Math.max(0, e.clientY - y0);
+    card.style.transform = 'translateY(' + dy + 'px)';
+    v.style.setProperty('--o', String(Math.max(0, 1 - dy / 420)));
+  });
+  const release = e => {
+    if (id !== e.pointerId) return;
+    id = null;
+    card.classList.remove('dragging');
+    /* تجاوز الربع أو ١٢٠ بكسل يغلق، وإلا رجعت مكانها */
+    if (dy > Math.min(120, card.offsetHeight * 0.25)) closeVeil(v);
+    else { card.style.transform = ''; v.style.removeProperty('--o'); }
+  };
+  card.addEventListener('pointerup', release);
+  card.addEventListener('pointercancel', release);
 });
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { closeAll(); closeDrops(); }
+  if (e.key === '/' && e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
+    e.preventDefault(); $('#q').focus();
+  }
+});
+function prog() {
+  const h = document.documentElement.scrollHeight - innerHeight;
+  $('#prog').style.width = (h > 4 ? (scrollY / h) * 100 : 0) + '%';
+}
+addEventListener('scroll', prog, { passive: true });
+addEventListener('resize', prog);
 addEventListener('beforeunload', e => { if (changed()) { e.preventDefault(); e.returnValue = ''; } });
 
 keyState();
-load().catch(e => {
-  $('#list').innerHTML = '<div class="empty">' + esc(e.message) + '</div>';
-});
+setupFromLink();
+prog();
+load().then(paint)
+  .catch(e => { $('#sheet').innerHTML = '<div class="blank"><b>تعذّر التحميل</b><span>' +
+    esc(e.message) + '</span></div>'; });
 </script>
 </body>
 </html>
