@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>لوحة الأسئلة — زاد الحروف</title>
+<link rel="icon" href="icon-180.png">
+<style>
+:root{
+  --ui:"IBM Plex Sans Arabic","Segoe UI",system-ui,"Tahoma",sans-serif;
+  --teal:#1A7E8B; --teal-d:#0F4A53; --lime:#B6C92F; --red:#AF3534; --amber:#B0730A;
+  --bg:#F4F7F8; --card:#FFFFFF; --ink:#12262B; --soft:#5C7076; --line:#DCE6E8;
+  --chip:#EAF1F2;
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#0C2228; --card:#123039; --ink:#EAF4F5; --soft:#9FB8BD; --line:#1F444F; --chip:#173A44;
+}}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--ui);background:var(--bg);color:var(--ink);font-size:14px;line-height:1.6}
+button,input,select,textarea{font-family:inherit;font-size:inherit;color:inherit}
+button{cursor:pointer}
+.wrap{max-width:1000px;margin:0 auto;padding:0 14px}
+
+/* ── الشريط العلوي ── */
+.top{position:sticky;top:0;z-index:10;background:var(--card);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding-block:10px}
+.ttl{font-size:16px;font-weight:700;margin-inline-end:auto}
+.ttl small{display:block;font-size:11.5px;font-weight:400;color:var(--soft)}
+.btn{display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 13px;border-radius:10px;
+  border:1px solid var(--line);background:var(--chip);color:var(--ink);font-size:13px;font-weight:600}
+.btn:hover{border-color:var(--teal)}
+.btn:disabled{opacity:.45;cursor:default;border-color:var(--line)}
+.btn.pri{background:var(--teal);border-color:var(--teal-d);color:#fff}
+.btn.dan{background:transparent;border-color:var(--red);color:var(--red)}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--red);flex:none}
+.dot.on{background:var(--lime)}
+
+/* ── أدوات البحث ── */
+.tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center;padding-block:12px}
+.search{flex:1;min-width:200px;height:38px;padding:0 12px;border-radius:10px;
+  border:1px solid var(--line);background:var(--card)}
+.letters{display:flex;flex-wrap:wrap;gap:5px;padding-bottom:10px}
+.lt{min-width:36px;height:32px;padding:0 7px;border-radius:9px;border:1px solid var(--line);
+  background:var(--card);font-size:14px;font-weight:600;display:inline-flex;
+  align-items:center;justify-content:center;gap:4px}
+.lt b{font-size:10px;font-weight:600;color:var(--soft)}
+.lt.on{background:var(--teal);border-color:var(--teal-d);color:#fff}
+.lt.on b{color:#D6EEF1}
+
+/* ── القائمة ── */
+.count{color:var(--soft);font-size:12.5px;padding-bottom:8px}
+.row{display:flex;gap:10px;align-items:flex-start;background:var(--card);border:1px solid var(--line);
+  border-radius:12px;padding:10px 12px;margin-bottom:7px}
+.row.new{border-color:var(--lime);box-shadow:inset 3px 0 0 var(--lime)}
+.row.edited{border-color:var(--amber);box-shadow:inset 3px 0 0 var(--amber)}
+.badge{flex:none;width:32px;height:32px;border-radius:9px;background:var(--chip);
+  display:grid;place-items:center;font-size:15px;font-weight:700;color:var(--teal)}
+.qa{flex:1;min-width:0}
+.qa .q{font-weight:600;word-wrap:break-word}
+.qa .a{color:var(--soft);font-size:13px;margin-top:2px}
+.qa .a b{color:var(--teal);font-weight:600}
+.warn{display:inline-block;margin-top:4px;font-size:11.5px;color:var(--amber);
+  background:rgba(176,115,10,.1);border-radius:6px;padding:1px 7px}
+.acts{flex:none;display:flex;gap:5px}
+.ico{width:32px;height:32px;border-radius:9px;border:1px solid var(--line);background:transparent;
+  display:grid;place-items:center;color:var(--soft)}
+.ico:hover{color:var(--teal);border-color:var(--teal)}
+.ico.d:hover{color:var(--red);border-color:var(--red)}
+.empty{text-align:center;color:var(--soft);padding:40px 0}
+
+/* ── النوافذ ── */
+.modal{position:fixed;inset:0;z-index:40;display:grid;place-items:center;padding:16px;
+  background:rgba(6,24,29,.6)}
+.modal[hidden]{display:none}
+.box{width:min(560px,100%);max-height:88vh;overflow:auto;background:var(--card);
+  border-radius:16px;padding:18px;border:1px solid var(--line)}
+.box h2{margin:0 0 14px;font-size:16px}
+.fld{margin-bottom:12px}
+.fld label{display:block;font-size:12.5px;font-weight:600;color:var(--soft);margin-bottom:5px}
+.fld input,.fld select,.fld textarea{width:100%;padding:9px 11px;border-radius:10px;
+  border:1px solid var(--line);background:var(--bg)}
+.fld textarea{min-height:120px;resize:vertical;font-size:13px;line-height:1.7}
+.msg{font-size:12.5px;border-radius:9px;padding:8px 11px;margin-bottom:12px}
+.msg.err{color:var(--red);background:rgba(175,53,52,.1)}
+.msg.warn{color:var(--amber);background:rgba(176,115,10,.1)}
+.msg.ok{color:var(--teal);background:rgba(26,126,139,.1)}
+.msg.note{color:var(--soft);background:var(--chip)}
+.msg[hidden]{display:none}
+.foot{display:flex;gap:8px;justify-content:flex-start;margin-top:16px}
+.foot .grow{margin-inline-end:auto}
+code{background:var(--chip);padding:1px 5px;border-radius:5px;font-size:12px;
+  font-family:ui-monospace,Consolas,monospace}
+a{color:var(--teal)}
+ol,ul{margin:0;padding-inline-start:20px}
+li{margin-bottom:5px}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th,td{text-align:start;padding:5px 7px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--soft);font-weight:600}
+tr.bad td{color:var(--red)}
+tr.dup td{color:var(--amber)}
+.scroll{max-height:260px;overflow:auto;border:1px solid var(--line);border-radius:10px}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div class="ttl">لوحة الأسئلة<small id="stats">…</small></div>
+    <button class="btn" id="bKey"><span class="dot" id="keyDot"></span><span id="keyTxt">المفتاح</span></button>
+    <button class="btn" id="bNew">+ سؤال</button>
+    <button class="btn" id="bImp">رفع دفعة</button>
+    <button class="btn" id="bExp">تصدير</button>
+    <button class="btn pri" id="bSave" disabled>حفظ</button>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="tools">
+    <input class="search" id="q" type="search" placeholder="ابحث في السؤال أو الإجابة…" autocomplete="off">
+    <button class="btn" id="bOnly">التغييرات فقط</button>
+  </div>
+  <div class="letters" id="letters"></div>
+  <div class="count" id="count"></div>
+  <div id="list"></div>
+</main>
+
+<!-- تحرير / إضافة -->
+<div class="modal" id="mEdit" hidden><div class="box">
+  <h2 id="edTitle">سؤال جديد</h2>
+  <div class="msg err" id="edErr" hidden></div>
+  <div class="msg warn" id="edWarn" hidden></div>
+  <div class="fld"><label for="edL">الحرف</label><select id="edL"></select></div>
+  <div class="fld"><label for="edQ">السؤال</label><textarea id="edQ" style="min-height:76px"></textarea></div>
+  <div class="fld"><label for="edA">الإجابة</label><input id="edA" type="text"></div>
+  <div class="foot">
+    <button class="btn pri" id="edOk">حفظ في اللوحة</button>
+    <button class="btn" id="edNo">إلغاء</button>
+  </div>
+</div></div>
+
+<!-- رفع دفعة -->
+<div class="modal" id="mImp" hidden><div class="box">
+  <h2>رفع دفعة أسئلة</h2>
+  <div class="msg note">
+    الصق من إكسل أو جداول جوجل مباشرة، أو ارفع ملف CSV. عمودان
+    (<b>السؤال</b> ثم <b>الإجابة</b>) ويُستنتج الحرف من أول الإجابة،
+    أو ثلاثة أعمدة يكون أولها <b>الحرف</b>.
+  </div>
+  <div class="fld"><input id="impFile" type="file" accept=".csv,.tsv,.txt"></div>
+  <div class="fld"><label for="impTxt">أو الصق هنا</label><textarea id="impTxt"
+    placeholder="ما أكبر قارات العالم مساحةً؟&#9;آسيا"></textarea></div>
+  <div class="msg err" id="impErr" hidden></div>
+  <div id="impPrev"></div>
+  <div class="foot">
+    <button class="btn pri" id="impOk" disabled>أضف المقبولة</button>
+    <button class="btn" id="impNo">إلغاء</button>
+  </div>
+</div></div>
+
+<!-- المفتاح -->
+<div class="modal" id="mKey" hidden><div class="box">
+  <h2>تفعيل الحفظ</h2>
+  <div class="msg note">
+    اكتب اسمك والصق المفتاح الذي أرسله لك مسؤول الموقع. يُحفظان في هذا المتصفح
+    وحده ولا تحتاج إعادتهما. واسمك يُوقَّع به كل تعديل تحفظه.
+  </div>
+  <div class="fld"><label for="keyName">اسمك</label>
+    <input id="keyName" type="text" placeholder="مثلاً: أبو عبد الله" autocomplete="off"></div>
+  <div class="fld"><label for="keyIn">المفتاح</label>
+    <input id="keyIn" type="password" placeholder="github_pat_…" autocomplete="off"></div>
+  <div class="msg" id="keyMsg" hidden></div>
+  <details style="margin-bottom:12px">
+    <summary style="cursor:pointer;font-weight:600;font-size:13px">
+      لمسؤول الموقع: كيف أنشئ مفتاحاً لمشرف؟</summary>
+    <ol style="margin-top:8px;font-size:12.5px;color:var(--soft)">
+      <li>افتح <a href="https://github.com/settings/personal-access-tokens/new" target="_blank"
+        rel="noopener">صفحة إنشاء مفتاح دقيق</a> من حسابك.</li>
+      <li><b>Token name</b>: اسم المشرف، لتعرف أيّ مفتاح تلغي لاحقاً.</li>
+      <li><b>Repository access</b> ← <b>Only select repositories</b> ←
+        <code id="keyRepo">…</code> وحده.</li>
+      <li><b>Permissions → Repository permissions → Contents</b> =
+        <b>Read and write</b>. لا تعطِه شيئاً غيرها.</li>
+      <li><b>Generate token</b>، ثم أرسل الناتج للمشرف ليلصقه هنا مرة واحدة.</li>
+    </ol>
+    <p style="font-size:12.5px;color:var(--soft);margin:8px 0 0">
+      أنشئ مفتاحاً مستقلاً لكل مشرف، فتلغي مفتاح واحد دون أن تعطّل البقية.
+      والإلغاء من نفس الصفحة في أي وقت.</p>
+  </details>
+  <div class="foot">
+    <button class="btn pri" id="keyOk">تحقّق واحفظ</button>
+    <button class="btn dan grow" id="keyDel">امسح</button>
+    <button class="btn" id="keyNo">إغلاق</button>
+  </div>
+</div></div>
+
+<!-- الحفظ -->
+<div class="modal" id="mSave" hidden><div class="box">
+  <h2>حفظ التغييرات</h2>
+  <div id="saveList"></div>
+  <div class="fld" style="margin-top:12px"><label for="saveMsg">وصف التعديل</label>
+    <input id="saveMsg" type="text"></div>
+  <div class="msg" id="saveMsgBox" hidden></div>
+  <div class="foot">
+    <button class="btn pri" id="saveOk">ارفع إلى GitHub</button>
+    <button class="btn" id="saveNo">إلغاء</button>
+  </div>
+</div></div>
+
+<script>
+'use strict';
+
+/* ══════════ إعداد ══════════
+   يُستنتج المستودع من رابط الصفحة، ويعمل كما هو لو نُسخ المشروع لحساب آخر. */
+const REPO = (() => {
+  const h = location.hostname, seg = location.pathname.split('/').filter(Boolean);
+  if (h.endsWith('.github.io')) {
+    const owner = h.slice(0, -'.github.io'.length);
+    return { owner, repo: seg.length && !seg[0].endsWith('.html') ? seg[0] : h, branch: 'main' };
+  }
+  return { owner: 'MAJ-10', repo: 'zad-alhuroof', branch: 'main' };   // تجربة محلية
+})();
+const SLUG = REPO.owner + '/' + REPO.repo;
+
+const JSON_PATH = 'zad-alhuroof-questions.json';
+const HTML_PATH = 'index.html';
+const SW_PATH   = 'sw.js';
+const BEGIN = '/* ══ بنك الأسئلة ══ مولَّد من zad-alhuroof-questions.json — لا تعدّله هنا */';
+const END   = '/* ══ نهاية بنك الأسئلة ══ */';
+
+const L = ['ا','ب','ت','ث','ج','ح','خ','د','ذ','ر','ز','س','ش','ص','ض','ط','ظ','ع','غ','ف','ق','ك','ل','م','ن','ه','و','ي'];
+const SHOW = { 'ا':'أ', 'ه':'هـ' };
+const NAMES = {'ا':'الألف','ب':'الباء','ت':'التاء','ث':'الثاء','ج':'الجيم','ح':'الحاء','خ':'الخاء','د':'الدال','ذ':'الذال','ر':'الراء','ز':'الزاي','س':'السين','ش':'الشين','ص':'الصاد','ض':'الضاد','ط':'الطاء','ظ':'الظاء','ع':'العين','غ':'الغين','ف':'الفاء','ق':'القاف','ك':'الكاف','ل':'اللام','م':'الميم','ن':'النون','ه':'الهاء','و':'الواو','ي':'الياء'};
+const disp = x => SHOW[x] || x;
+const $ = s => document.querySelector(s);
+const esc = s => s.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+/* تمييز العدد في العربية: مفرد ومثنّى وجمع قلّة وتمييز منصوب */
+function plural(n, one, two, few, many) {
+  if (n === 1) return one;
+  if (n === 2) return two;
+  if (n >= 3 && n <= 10) return n + ' ' + few;
+  return n + ' ' + many;
+}
+const nQ = n => plural(n, 'سؤال واحد', 'سؤالان', 'أسئلة', 'سؤالاً');
+const nR = n => plural(n, 'نتيجة واحدة', 'نتيجتان', 'نتائج', 'نتيجة');
+
+/* ══════════ الحالة ══════════ */
+const st = {
+  data: null,          // البنك كما هو معروض
+  baseSha: null,       // بصمة الملف على GitHub عند التحميل
+  baseline: '',        // نصّ البنك عند التحميل، لمعرفة ما تغيّر
+  origin: new Map(),   // الصيغة الأصلية لكل سؤال، لتمييز المعدَّل
+  filter: null,        // الحرف المختار
+  onlyCh: false,
+  editing: null,       // { L, item } أو null للإضافة
+  imported: []
+};
+
+/* ══════════ أدوات عربية ══════════ */
+const NORM = { 'أ':'ا','إ':'ا','آ':'ا','ٱ':'ا','ة':'ه','ى':'ي' };
+const bare = s => s.replace(/[ً-ْٰ]/g, '').replace(/[أإآٱةى]/g, c => NORM[c]);
+/* الحرف المتوقَّع من الإجابة: أول حرف بعد تجاهل «ال» والأقواس */
+function firstLetter(a) {
+  const t = bare(a.trim().replace(/^[«"“(]+/, '')).replace(/^ال/, '');
+  return t[0] || '';
+}
+
+/* ══════════ تحميل ══════════ */
+async function load() {
+  const r = await fetch(JSON_PATH + '?t=' + Date.now(), { cache: 'no-store' });
+  if (!r.ok) throw new Error('تعذّر تحميل بنك الأسئلة (' + r.status + ')');
+  st.data = await r.json();
+  st.baseline = JSON.stringify(st.data);
+  st.origin = new Map();
+  for (const g of st.data) for (const it of g.items) st.origin.set(it, { L: g.letter, q: it.q, a: it.a });
+  st.baseSha = null;
+  draw();
+}
+
+const group = x => st.data.find(g => g.letter === x);
+const total = () => st.data.reduce((n, g) => n + g.items.length, 0);
+const changed = () => JSON.stringify(st.data) !== st.baseline;
+
+/* حال كل سؤال: جديد أو معدَّل أو كما هو */
+function stateOf(Lx, it) {
+  const o = st.origin.get(it);
+  if (!o) return 'new';
+  return (o.q !== it.q || o.a !== it.a || o.L !== Lx) ? 'edited' : '';
+}
+
+/* ══════════ العرض ══════════ */
+function draw() {
+  $('#stats').textContent = nQ(total()) + ' · ' + st.data.length + ' حرفاً · ' + SLUG;
+  const g = $('#letters');
+  g.innerHTML = L.map(x => {
+    const n = (group(x) || { items: [] }).items.length;
+    return '<button class="lt' + (st.filter === x ? ' on' : '') + '" data-l="' + x + '">' +
+           disp(x) + '<b>' + n + '</b></button>';
+  }).join('');
+  g.querySelectorAll('.lt').forEach(b => b.onclick = () => {
+    st.filter = st.filter === b.dataset.l ? null : b.dataset.l;
+    draw();
+  });
+  list();
+  const n = countChanges();
+  $('#bSave').disabled = !n;
+  $('#bSave').textContent = n ? 'حفظ (' + n + ')' : 'حفظ';
+  $('#bOnly').classList.toggle('pri', st.onlyCh);
+}
+
+function rows() {
+  const term = bare($('#q').value.trim().toLowerCase());
+  const out = [];
+  for (const gr of st.data) {
+    if (st.filter && gr.letter !== st.filter) continue;
+    for (const it of gr.items) {
+      const stt = stateOf(gr.letter, it);
+      if (st.onlyCh && !stt) continue;
+      if (term && !bare((it.q + ' ' + it.a).toLowerCase()).includes(term)) continue;
+      out.push({ L: gr.letter, it, stt });
+    }
+  }
+  return out;
+}
+
+function list() {
+  const rs = rows(), box = $('#list');
+  $('#count').textContent = nR(rs.length) + (rs.length > 400 ? ' — عُرض أول ٤٠٠' : '');
+  if (!rs.length) { box.innerHTML = '<div class="empty">لا نتائج</div>'; return; }
+  box.innerHTML = rs.slice(0, 400).map((r, i) => {
+    const bad = firstLetter(r.it.a) !== r.L;
+    return '<div class="row ' + r.stt + '" data-i="' + i + '">' +
+      '<div class="badge">' + disp(r.L) + '</div>' +
+      '<div class="qa"><div class="q">' + esc(r.it.q) + '</div>' +
+      '<div class="a">الإجابة: <b>' + esc(r.it.a) + '</b></div>' +
+      (bad ? '<span class="warn">الإجابة لا تبدأ بحرف ' + NAMES[r.L] + '</span>' : '') +
+      '</div><div class="acts">' +
+      '<button class="ico e" title="تعديل">✎</button>' +
+      '<button class="ico d" title="حذف">🗑</button>' +
+      '</div></div>';
+  }).join('');
+  const shown = rs.slice(0, 400);
+  box.querySelectorAll('.row').forEach(el => {
+    const r = shown[+el.dataset.i];
+    el.querySelector('.e').onclick = () => openEdit(r.L, r.it);
+    el.querySelector('.d').onclick = () => del(r.L, r.it);
+  });
+}
+
+function countChanges() { return diff().length; }
+
+/* قائمة ما تغيّر، للمراجعة ولرسالة الكوميت */
+function diff() {
+  const out = [];
+  const alive = new Set();
+  for (const gr of st.data) for (const it of gr.items) {
+    alive.add(it);
+    const s = stateOf(gr.letter, it);
+    if (s === 'new') out.push({ t: 'إضافة', L: gr.letter, q: it.q, a: it.a });
+    else if (s === 'edited') {
+      const o = st.origin.get(it);
+      out.push({ t: 'تعديل', L: gr.letter, q: it.q, a: it.a, was: o });
+    }
+  }
+  for (const [it, o] of st.origin) if (!alive.has(it)) out.push({ t: 'حذف', L: o.L, q: o.q, a: o.a });
+  return out;
+}
+
+/* ══════════ تحرير ══════════ */
+function openEdit(Lx, it) {
+  st.editing = it ? { L: Lx, item: it } : null;
+  $('#edTitle').textContent = it ? 'تعديل سؤال' : 'سؤال جديد';
+  $('#edL').innerHTML = L.map(x => '<option value="' + x + '">' + disp(x) + ' — ' + NAMES[x] + '</option>').join('');
+  $('#edL').value = Lx || 'ا';
+  $('#edQ').value = it ? it.q : '';
+  $('#edA').value = it ? it.a : '';
+  $('#edErr').hidden = $('#edWarn').hidden = true;
+  $('#mEdit').hidden = false;
+  $('#edQ').focus();
+}
+
+function checkEdit() {
+  const Lx = $('#edL').value, q = $('#edQ').value.trim(), a = $('#edA').value.trim();
+  if (!q) return { err: 'نصّ السؤال فارغ.' };
+  if (!a) return { err: 'الإجابة فارغة.' };
+  const cur = st.editing && st.editing.item;
+  const dup = (group(Lx) || { items: [] }).items.find(x => x !== cur && bare(x.q.trim()) === bare(q));
+  if (dup) return { err: 'هذا السؤال مكرّر في حرف ' + NAMES[Lx] + ' بإجابة «' + dup.a + '».' };
+  const warn = firstLetter(a) !== Lx
+    ? 'الإجابة «' + a + '» لا تبدأ بحرف ' + NAMES[Lx] + '. تأكّد أن هذا مقصود قبل الحفظ.'
+    : null;
+  return { Lx, q, a, warn };
+}
+
+$('#edOk').onclick = () => {
+  const v = checkEdit();
+  $('#edErr').hidden = !v.err;
+  if (v.err) { $('#edErr').textContent = v.err; return; }
+  if (v.warn && $('#edWarn').hidden) {           // التحذير يُعرض مرة ثم يُقبل
+    $('#edWarn').textContent = v.warn + ' اضغط «حفظ» مرة أخرى للتأكيد.';
+    $('#edWarn').hidden = false; return;
+  }
+  if (st.editing) {
+    const { L: oldL, item } = st.editing;
+    item.q = v.q; item.a = v.a;
+    if (oldL !== v.Lx) {                          // نقل بين حرفين
+      const from = group(oldL);
+      from.items.splice(from.items.indexOf(item), 1);
+      group(v.Lx).items.push(item);
+    }
+  } else {
+    group(v.Lx).items.push({ q: v.q, a: v.a });
+  }
+  $('#mEdit').hidden = true;
+  draw();
+};
+$('#edNo').onclick = () => { $('#mEdit').hidden = true; };
+$('#bNew').onclick = () => openEdit(st.filter || 'ا', null);
+
+function del(Lx, it) {
+  if (!confirm('حذف هذا السؤال؟\n\n' + it.q + '\nالإجابة: ' + it.a)) return;
+  const gr = group(Lx);
+  gr.items.splice(gr.items.indexOf(it), 1);
+  draw();
+}
+
+/* ══════════ رفع دفعة ══════════ */
+function parseRows(text) {
+  const lines = text.replace(/\r/g, '').split('\n').filter(l => l.trim());
+  return lines.map(line => {
+    let cells = line.includes('\t') ? line.split('\t') : splitCsv(line);
+    cells = cells.map(c => c.trim().replace(/^"(.*)"$/s, '$1').trim());
+    if (cells.length >= 3 && L.includes(bare(cells[0]))) return { L: bare(cells[0]), q: cells[1], a: cells[2] };
+    if (cells.length >= 2) return { L: null, q: cells[0], a: cells[1] };
+    return { L: null, q: cells[0] || '', a: '' };
+  });
+}
+function splitCsv(line) {
+  const out = []; let cur = '', qt = false;
+  for (let i = 0; i < line.length; i++) {
+    const c = line[i];
+    if (c === '"') { if (qt && line[i + 1] === '"') { cur += '"'; i++; } else qt = !qt; }
+    else if ((c === ',' || c === ';') && !qt) { out.push(cur); cur = ''; }
+    else cur += c;
+  }
+  out.push(cur); return out;
+}
+
+function preview(text) {
+  const raw = parseRows(text);
+  const seen = new Set();
+  st.imported = raw.map(r => {
+    const q = (r.q || '').trim(), a = (r.a || '').trim();
+    let Lx = r.L, why = '';
+    if (!q || !a) why = 'سؤال أو إجابة فارغة';
+    else {
+      if (!Lx) { Lx = firstLetter(a); if (!L.includes(Lx)) why = 'تعذّر استنتاج الحرف من «' + a + '»'; }
+      if (!why) {
+        const key = Lx + '|' + bare(q);
+        if (seen.has(key)) why = 'مكرّر داخل الدفعة';
+        else if ((group(Lx) || { items: [] }).items.some(x => bare(x.q.trim()) === bare(q)))
+          why = 'موجود في البنك';
+        else seen.add(key);
+      }
+    }
+    return { Lx, q, a, why, ok: !why };
+  });
+  const ok = st.imported.filter(x => x.ok).length;
+  $('#impPrev').innerHTML =
+    '<div class="msg ' + (ok ? 'ok' : 'warn') + '">' + nQ(ok) + ' مقبول من ' +
+    st.imported.length + '</div><div class="scroll"><table><tr><th>الحرف</th><th>السؤال</th>' +
+    '<th>الإجابة</th><th>الحال</th></tr>' +
+    st.imported.map(x => '<tr class="' + (x.ok ? '' : (x.why.includes('مكرّر') || x.why.includes('موجود') ? 'dup' : 'bad')) + '">' +
+      '<td>' + esc(x.Lx ? disp(x.Lx) : '—') + '</td><td>' + esc(x.q.slice(0, 70)) + '</td>' +
+      '<td>' + esc(x.a.slice(0, 30)) + '</td><td>' + (x.ok ? '✓' : esc(x.why)) + '</td></tr>').join('') +
+    '</table></div>';
+  $('#impOk').disabled = !ok;
+  $('#impOk').textContent = 'أضف ' + nQ(ok);
+}
+
+$('#bImp').onclick = () => {
+  $('#impTxt').value = ''; $('#impPrev').innerHTML = ''; $('#impErr').hidden = true;
+  $('#impOk').disabled = true; $('#impOk').textContent = 'أضف المقبولة';
+  $('#mImp').hidden = false;
+};
+$('#impTxt').oninput = e => { if (e.target.value.trim()) preview(e.target.value); else $('#impPrev').innerHTML = ''; };
+$('#impFile').onchange = async e => {
+  const f = e.target.files[0]; if (!f) return;
+  const t = await f.text();
+  $('#impTxt').value = t; preview(t);
+};
+$('#impOk').onclick = () => {
+  let n = 0;
+  for (const x of st.imported) if (x.ok) { group(x.Lx).items.push({ q: x.q, a: x.a }); n++; }
+  $('#mImp').hidden = true; draw();
+  alert('أُضيف ' + nQ(n) + ' إلى اللوحة. اضغط «حفظ» للرفع.');
+};
+$('#impNo').onclick = () => { $('#mImp').hidden = true; };
+
+/* ══════════ تصدير ══════════ */
+$('#bExp').onclick = () => {
+  const blob = new Blob([JSON.stringify(st.data, null, 4)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob); a.download = JSON_PATH;
+  a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+};
+
+/* ══════════ المفتاح ══════════ */
+const KEY = 'zh_gh_token', WHO = 'zh_editor';
+const tok = () => { try { return localStorage.getItem(KEY) || ''; } catch (e) { return ''; } };
+const who = () => { try { return localStorage.getItem(WHO) || ''; } catch (e) { return ''; } };
+function keyState() {
+  const has = !!tok();
+  $('#keyDot').classList.toggle('on', has);
+  $('#keyTxt').textContent = has ? (who() || 'مفعَّل') : 'تفعيل الحفظ';
+}
+$('#bKey').onclick = () => {
+  $('#keyRepo').textContent = SLUG;
+  $('#keyName').value = who(); $('#keyIn').value = ''; $('#keyMsg').hidden = true;
+  $('#mKey').hidden = false;
+  $('#keyName').focus();
+};
+$('#keyNo').onclick = () => { $('#mKey').hidden = true; };
+$('#keyDel').onclick = () => {
+  localStorage.removeItem(KEY); localStorage.removeItem(WHO);
+  keyState(); $('#mKey').hidden = true;
+};
+$('#keyOk').onclick = async () => {
+  const name = $('#keyName').value.trim(), t = $('#keyIn').value.trim();
+  const box = $('#keyMsg'); box.hidden = false; box.className = 'msg err';
+  if (!name) { box.textContent = 'اكتب اسمك ليُوقَّع به تعديلك.'; return; }
+  if (!t) { box.textContent = 'الصق المفتاح أولاً.'; return; }
+  box.className = 'msg note'; box.textContent = 'أتحقّق…';
+  try {
+    const r = await api('https://api.github.com/repos/' + SLUG, {}, t);
+    if (!r.permissions || !r.permissions.push)
+      throw new Error('هذا المفتاح لا يملك صلاحية الكتابة. اطلب من مسؤول الموقع مفتاحاً بصلاحية Contents: Read and write.');
+    localStorage.setItem(KEY, t);
+    localStorage.setItem(WHO, name);
+    keyState();
+    box.className = 'msg ok'; box.textContent = 'تمام يا ' + name + ' — الحفظ مفعَّل.';
+    setTimeout(() => { $('#mKey').hidden = true; }, 1300);
+  } catch (e) {
+    box.className = 'msg err'; box.textContent = e.message;
+  }
+};
+
+/* ══════════ GitHub ══════════ */
+async function api(url, opt = {}, token) {
+  const r = await fetch(url, Object.assign({}, opt, {
+    headers: Object.assign({
+      'Accept': 'application/vnd.github+json',
+      'Authorization': 'Bearer ' + (token || tok()),
+      'X-GitHub-Api-Version': '2022-11-28'
+    }, opt.body ? { 'Content-Type': 'application/json' } : {})
+  }));
+  const txt = await r.text();
+  const body = txt ? JSON.parse(txt) : {};
+  if (!r.ok) {
+    if (r.status === 401) throw new Error('المفتاح غير صالح أو انتهت مدّته.');
+    if (r.status === 403) throw new Error('المفتاح لا يملك الصلاحية المطلوبة على ' + SLUG + '.');
+    if (r.status === 404) throw new Error('لم يُعثر على ' + SLUG + '، أو المفتاح لا يراه.');
+    throw new Error((body.message || r.status) + '');
+  }
+  return body;
+}
+const GH = 'https://api.github.com/repos/' + SLUG;
+
+function b64(str) {                                  // UTF-8 → base64 بلا انفجار المكدّس
+  const bytes = new TextEncoder().encode(str);
+  let s = '';
+  for (let i = 0; i < bytes.length; i += 0x8000) s += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x8000));
+  return btoa(s);
+}
+async function sha256(str) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+  return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+/* نفس ما يفعله build.py بالضبط */
+function buildHtml(html, data) {
+  const i = html.indexOf(BEGIN), j = html.indexOf(END);
+  if (i < 0 || j < 0) throw new Error('لم أجد علامتي البنك في index.html.');
+  return html.slice(0, i) + BEGIN + '\n' + 'const RAW = ' + JSON.stringify(data) + ';\n' +
+         END + html.slice(j + END.length);
+}
+function buildSw(sw, version) {
+  const re = /^const VERSION = '[^']*';(\s*\/\* ══ بصمة البناء ══ \*\/)$/m;
+  if (!re.test(sw)) throw new Error('لم أجد سطر البصمة في sw.js.');
+  return sw.replace(re, (m, tail) => "const VERSION = '" + version + "';" + tail);
+}
+
+/* قراءة خام لا بـbase64: واجهة المحتوى المُرمَّزة تتوقّف عند ميجابايت،
+   وindex.html يكبر مع كل سؤال يُضاف. الخام يبلغ مئة ميجابايت. */
+async function getFile(path) {
+  const r = await fetch(GH + '/contents/' + path + '?ref=' + REPO.branch, {
+    headers: {
+      'Accept': 'application/vnd.github.raw',
+      'Authorization': 'Bearer ' + tok(),
+      'X-GitHub-Api-Version': '2022-11-28'
+    }
+  });
+  if (!r.ok) throw new Error('تعذّرت قراءة ' + path + ' من المستودع (' + r.status + ').');
+  return r.text();
+}
+
+async function commitAll(message) {
+  /* ١. الوضع الحالي للفرع */
+  const ref = await api(GH + '/git/ref/heads/' + REPO.branch);
+  const head = ref.object.sha;
+  const headCommit = await api(GH + '/git/commits/' + head);
+
+  /* ٢. ابنِ الملفات الثلاثة من البنك الجديد — نفس ما يفعله build.py */
+  const jsonTxt = JSON.stringify(st.data, null, 4);
+  const htmlTxt = buildHtml(await getFile(HTML_PATH), st.data);
+  const swTxt = buildSw(await getFile(SW_PATH), (await sha256(htmlTxt)).slice(0, 12));
+
+  /* ٣. ارفع المحتوى ثم اصنع شجرة وكوميتاً */
+  const files = [[JSON_PATH, jsonTxt], [HTML_PATH, htmlTxt], [SW_PATH, swTxt]];
+  const tree = [];
+  for (const [path, content] of files) {
+    const blob = await api(GH + '/git/blobs', {
+      method: 'POST', body: JSON.stringify({ content: b64(content), encoding: 'base64' })
+    });
+    tree.push({ path, mode: '100644', type: 'blob', sha: blob.sha });
+  }
+  const newTree = await api(GH + '/git/trees', {
+    method: 'POST', body: JSON.stringify({ base_tree: headCommit.tree.sha, tree })
+  });
+  /* التوقيع باسم من حفظ، ولو كان المفتاح مشتركاً، ليُعرف صاحب كل تعديل */
+  const author = { name: who() || 'لوحة الأسئلة', email: 'zad-alhuroof@users.noreply.github.com' };
+  const commit = await api(GH + '/git/commits', {
+    method: 'POST',
+    body: JSON.stringify({ message, tree: newTree.sha, parents: [head], author })
+  });
+  /* ٤. حرّك الفرع — يفشل لو دفع أحد قبلك، فلا يُمحى عمله */
+  await api(GH + '/git/refs/heads/' + REPO.branch, {
+    method: 'PATCH', body: JSON.stringify({ sha: commit.sha, force: false })
+  });
+  return commit.sha;
+}
+
+/* ══════════ الحفظ ══════════ */
+$('#bSave').onclick = () => {
+  const d = diff();
+  const n = { 'إضافة': 0, 'تعديل': 0, 'حذف': 0 };
+  d.forEach(x => n[x.t]++);
+  const parts = Object.entries(n).filter(([, v]) => v).map(([k, v]) => k + ' ' + v);
+  $('#saveMsg').value = 'تحديث بنك الأسئلة: ' + parts.join('، ');
+  $('#saveList').innerHTML = '<div class="scroll"><table><tr><th>العملية</th><th>الحرف</th>' +
+    '<th>السؤال</th><th>الإجابة</th></tr>' +
+    d.map(x => '<tr><td>' + x.t + '</td><td>' + disp(x.L) + '</td><td>' +
+      esc(x.q.slice(0, 60)) + '</td><td>' + esc(x.a.slice(0, 26)) + '</td></tr>').join('') +
+    '</table></div>';
+  const box = $('#saveMsgBox');
+  if (!tok()) {
+    box.className = 'msg warn'; box.hidden = false;
+    box.textContent = 'لا مفتاح محفوظ — أضف مفتاحاً للحفظ المباشر، أو استعمل «تصدير» وأرسل الملف.';
+    $('#saveOk').disabled = true;
+  } else { box.hidden = true; $('#saveOk').disabled = false; }
+  $('#mSave').hidden = false;
+};
+$('#saveNo').onclick = () => { $('#mSave').hidden = true; };
+$('#saveOk').onclick = async () => {
+  const btn = $('#saveOk'), box = $('#saveMsgBox');
+  btn.disabled = true;
+  box.hidden = false; box.className = 'msg note'; box.textContent = 'أرفع إلى GitHub…';
+  try {
+    const sha = await commitAll($('#saveMsg').value.trim() || 'تحديث بنك الأسئلة');
+    box.className = 'msg ok';
+    box.innerHTML = 'تمّ الرفع — الكوميت <code>' + sha.slice(0, 7) + '</code>. ' +
+      'الموقع يتحدّث خلال دقيقة أو دقيقتين.';
+    st.baseline = JSON.stringify(st.data);
+    st.origin = new Map();
+    for (const g of st.data) for (const it of g.items) st.origin.set(it, { L: g.letter, q: it.q, a: it.a });
+    draw();
+    setTimeout(() => { $('#mSave').hidden = true; }, 2500);
+  } catch (e) {
+    box.className = 'msg err';
+    box.textContent = /not a fast forward|is at/i.test(e.message)
+      ? 'عدّل أحدهم البنك قبلك. حدّث الصفحة وأعد تعديلك حتى لا يُمحى عمله.'
+      : e.message;
+    btn.disabled = false;
+  }
+};
+
+/* ══════════ تشغيل ══════════ */
+$('#q').oninput = () => list();
+$('#bOnly').onclick = () => { st.onlyCh = !st.onlyCh; draw(); };
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') document.querySelectorAll('.modal').forEach(m => m.hidden = true);
+});
+addEventListener('beforeunload', e => { if (changed()) { e.preventDefault(); e.returnValue = ''; } });
+
+keyState();
+load().catch(e => {
+  $('#list').innerHTML = '<div class="empty">' + esc(e.message) + '</div>';
+});
+</script>
+</body>
+</html>

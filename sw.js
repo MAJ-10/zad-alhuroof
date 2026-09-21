@@ -30,18 +30,30 @@ self.addEventListener('activate', e => {
   );
 });
 
+/* لوحة المشرف وبنك الأسئلة لا يُخزَّنان إطلاقاً: اللوحة يجب أن ترى
+   آخر نسخة دائماً، ولو خُزّنت لعرضت أسئلة قديمة وكتبت فوق الجديد. */
+const NEVER = /(?:^|\/)(?:admin\.html|zad-alhuroof-questions\.json)$/;
+/* الصفحة الوحيدة التي تُخزَّن للعمل بلا إنترنت */
+const APP = /(?:^|\/)(?:index\.html)?$/;
+
 self.addEventListener('fetch', e => {
   const req = e.request;
   if (req.method !== 'GET') return;
-  if (new URL(req.url).origin !== location.origin) return;
+  const url = new URL(req.url);
+  if (url.origin !== location.origin) return;
+  if (NEVER.test(url.pathname)) return;              // اتركها للمتصفح: شبكة فقط
 
-  /* فتح الموقع: جرّب الشبكة أولاً ليصل أي تحديث، وإلا فمن المخزن */
   if (req.mode === 'navigate') {
+    /* صفحة التطبيق: الشبكة أولاً ليصل التحديث، والمخزن عند انقطاعها.
+       أي صفحة أخرى لا تُخزَّن ولا تكتب فوق نسخة التطبيق. */
+    if (!APP.test(url.pathname)) return;
     e.respondWith(
       fetch(req)
         .then(res => {
-          const copy = res.clone();
-          caches.open(CACHE).then(c => c.put('./index.html', copy));
+          if (res.ok) {
+            const copy = res.clone();
+            caches.open(CACHE).then(c => c.put('./index.html', copy));
+          }
           return res;
         })
         .catch(() => caches.match('./index.html').then(r => r || caches.match('./')))
