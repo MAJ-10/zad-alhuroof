@@ -1,0 +1,35 @@
+{
+    "name": "زاد الحروف — بنك أسئلة نادي جيل",
+    "short_name": "زاد الحروف",
+    "description": "بنك أسئلة ثقافية مرتّبة على حروف الهجاء، إجابة كل سؤال تبدأ بحرفه.",
+    "lang": "ar",
+    "dir": "rtl",
+    "start_url": "./",
+    "scope": "./",
+    "id": "/zad-alhuroof/",
+    "display": "standalone",
+    "orientation": "portrait",
+    "background_color": "#FDFEFE",
+    "theme_color": "#FDFEFE",
+    "categories": ["education"],
+    "icons": [
+        {
+            "src": "icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "icon-maskable-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
+        }
+    ]
+}
