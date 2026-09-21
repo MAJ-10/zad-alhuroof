@@ -8,6 +8,15 @@
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCIgeTE9IjAiIHgyPSIwLjYyIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjM0ZCQ0NBIi8+PHN0b3Agb2Zmc2V0PSIuNTgiIHN0b3AtY29sb3I9IiMxQTdFOEIiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMxNDYwNkMiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHJ4PSIxNSIgZmlsbD0idXJsKCNnKSIvPjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDEwLjU3LDM3Ljk2KSBzY2FsZSgwLjA2MjIxLC0wLjA2MjIxKSI+PHBhdGggZD0iTTMzNyAtMzA0UTI2MyAtMzA0IDIwNS4wIC0yODUuMFExNDcgLTI2NiAxMDYuNSAtMjMwLjBRNjYgLTE5NCA0NC41IC0xNDIuNVEyMyAtOTEgMjMgLTI1UTIzIDgxIDk2LjAgMTUyLjVRMTY5IDIyNCAzMjUgMjczTDUyNCAzMzVWMzQxTDE2OSAzNDlWMjc4SDU0VjM1M1E1NCA0MjkgOTIuNSA0NjQuNVExMzEgNTAwIDIxOSA0OTVMNjEwIDQ3MVYyNDRMMzg3IDE4NFEzMTcgMTY1IDI2OS4wIDE0OC4wUTIyMSAxMzEgMTkxLjAgMTEwLjVRMTYxIDkwIDE0Ny41IDYzLjVRMTM0IDM3IDEzNCAxVi0xMVExMzQgLTQ2IDE0NC41IC03Mi41UTE1NSAtOTkgMTgwLjAgLTExNy4wUTIwNSAtMTM1IDI0NS41IC0xNDQuNVEyODYgLTE1NCAzNDYgLTE1NFE0MTUgLTE1NCA0NzkuMCAtMTI4LjVRNTQzIC0xMDMgNTkxIC01Nkw2NjYgLTE3NFE2MDUgLTIzNSA1MTguNSAtMjY5LjVRNDMyIC0zMDQgMzM3IC0zMDRaIiBmaWxsPSIjZmZmIi8+PC9nPjwvc3ZnPg==">
 <link rel="apple-touch-icon" href="icon-180.png">
 <link rel="manifest" href="manifest.webmanifest">
+<script>
+/* كروم يطلق beforeinstallprompt مبكراً وقد يسبق سكربت الصفحة، فنلتقطه هنا ونحتفظ به. */
+window.__bip = null;
+addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  window.__bip = e;
+  dispatchEvent(new Event('zh:installable'));
+});
+</script>
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -119,6 +128,34 @@ img{display:block;max-width:100%}
 .word{display:flex;align-items:baseline;gap:6px;font-size:20px;font-weight:700;line-height:1}
 .word .a{color:var(--lime-ink)}
 .word .b{color:var(--ink)}
+.tools{display:flex;align-items:center;gap:8px}
+/* زر تثبيت التطبيق — يظهر فقط إن كان التثبيت ممكناً، ويختفي بعده */
+.inst{flex:none;display:inline-flex;align-items:center;gap:5px;height:32px;padding:0 12px;
+  border-radius:999px;cursor:pointer;font-family:var(--ui);font-size:12.5px;font-weight:600;
+  color:#fff;background:linear-gradient(180deg,#2196A5,var(--teal));
+  border:1.5px solid rgba(255,255,255,.22);box-shadow:0 3px 10px rgba(15,74,83,.28);
+  transition:transform 120ms ease,box-shadow 200ms ease}
+.inst:active{transform:scale(.95)}
+.inst[hidden]{display:none}
+@media (max-width:360px){ .inst span{display:none} .inst{padding:0 9px} }
+
+/* ورقة الإرشاد */
+.sheet{position:fixed;inset:0;z-index:40;display:grid;place-items:center;padding:20px;
+  background:rgba(8,30,35,.55);backdrop-filter:blur(3px);animation:sfade 180ms ease-out both}
+.sheet[hidden]{display:none}
+@keyframes sfade{from{opacity:0}to{opacity:1}}
+.sheet-box{width:min(340px,100%);border-radius:20px;padding:20px 18px 16px;text-align:start;
+  background:var(--card-bg);border:var(--card-bd);box-shadow:0 20px 50px rgba(0,0,0,.35);
+  animation:zrise 260ms ease-out both}
+.sheet-t{margin:0 0 12px;font-size:17px;font-weight:700;color:var(--ink)}
+.sheet-steps{margin:0;padding-inline-start:20px;display:grid;gap:9px;
+  font-size:14px;line-height:1.7;color:var(--ink-soft)}
+.sheet-steps b{color:var(--ink);font-weight:600}
+.sheet-ok{margin-top:16px;width:100%;min-height:42px;border-radius:13px;cursor:pointer;
+  font-family:var(--ui);font-size:14px;font-weight:600;color:#fff;
+  background:linear-gradient(180deg,#2196A5,var(--teal));border:1.5px solid rgba(255,255,255,.2)}
+.sheet-ok:active{transform:scale(.98)}
+
 .tgl{position:relative;flex:none;width:58px;height:32px;border-radius:999px;cursor:pointer;
   background:var(--tg-bg);border:var(--tg-bd);box-shadow:var(--tg-sh);
   transition:background 250ms ease,border-color 250ms ease,transform 120ms ease}
@@ -266,14 +303,29 @@ main{position:relative;z-index:1;flex:1;display:flex;flex-direction:column;justi
       <img id="logo" alt="شعار نادي جيل">
       <div class="word"><span class="a">زاد</span><span class="b">الحروف</span></div>
     </div>
-    <button class="tgl" id="tgl" aria-label="تبديل المظهر">
-      <span class="knob">
-        <svg class="moon" width="13" height="13" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5Z" fill="#0A2A33"/></svg>
-        <svg class="sun" width="13" height="13" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2" fill="#B08A00"/><path d="M12 2.2v2.6M12 19.2v2.6M2.2 12h2.6M19.2 12h2.6M4.9 4.9l1.9 1.9M17.2 17.2l1.9 1.9M4.9 19.1l1.9-1.9M17.2 6.8l1.9-1.9" stroke="#B08A00" stroke-width="2" stroke-linecap="round"/></svg>
-      </span>
-    </button>
+    <div class="tools">
+      <button class="inst" id="inst" hidden>
+        <svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v11m0 0 4.2-4.2M12 14l-4.2-4.2M4.5 16.5v1.8A2.7 2.7 0 0 0 7.2 21h9.6a2.7 2.7 0 0 0 2.7-2.7v-1.8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span id="instLabel">تثبيت التطبيق</span>
+      </button>
+      <button class="tgl" id="tgl" aria-label="تبديل المظهر">
+        <span class="knob">
+          <svg class="moon" width="13" height="13" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5Z" fill="#0A2A33"/></svg>
+          <svg class="sun" width="13" height="13" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2" fill="#B08A00"/><path d="M12 2.2v2.6M12 19.2v2.6M2.2 12h2.6M19.2 12h2.6M4.9 4.9l1.9 1.9M17.2 17.2l1.9 1.9M4.9 19.1l1.9-1.9M17.2 6.8l1.9-1.9" stroke="#B08A00" stroke-width="2" stroke-linecap="round"/></svg>
+        </span>
+      </button>
+    </div>
   </div>
 </header>
+
+<!-- إرشاد التثبيت لسفاري: لا واجهة برمجية للتثبيت فيه، فالخطوات يدوية -->
+<div class="sheet" id="instSheet" hidden>
+  <div class="sheet-box" role="dialog" aria-modal="true" aria-labelledby="instTitle">
+    <h2 class="sheet-t" id="instTitle">تثبيت زاد الحروف</h2>
+    <ol class="sheet-steps" id="instSteps"></ol>
+    <button class="sheet-ok" id="instClose">تمام</button>
+  </div>
+</div>
 
 <main>
   <div class="wrap">
@@ -505,6 +557,69 @@ runSplash(SPLASH);
 if ('serviceWorker' in navigator && location.protocol !== 'file:'){
   addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
 }
+
+/* ══ زر التثبيت ══
+   كروم وإيدج يعطيان beforeinstallprompt فيثبّت الزر التطبيق مباشرة.
+   سفاري لا يملك واجهة تثبيت أصلاً — لا في الآيفون ولا في الماك — فالزر
+   يعرض خطوات الإضافة اليدوية. ولا يظهر الزر إطلاقاً حيث لا تثبيت ممكن. */
+(function(){
+  const btn = $('#inst'), sheet = $('#instSheet'), steps = $('#instSteps');
+  const ua = navigator.userAgent;
+  const installed = matchMedia('(display-mode: standalone)').matches
+                 || matchMedia('(display-mode: minimal-ui)').matches
+                 || navigator.standalone === true;
+  if (installed) return;                                   // مثبَّت أصلاً
+
+  const iOS = /iPad|iPhone|iPod/.test(ua)
+           || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  const webkit = /^((?!chrome|android|crios|fxios|edgios|opr\/).)*safari/i.test(ua);
+  const mac = /Macintosh/.test(ua) && !iOS;
+
+  let mode = null;
+  if (window.__bip) mode = 'prompt';
+  else if (iOS) mode = 'ios';
+  else if (mac && webkit) mode = 'mac';
+
+  const GUIDES = {
+    ios: ['اضغط زر <b>المشاركة</b> في شريط سفاري (مربّع وسهم لأعلى).',
+          'مرّر ثم اختر <b>إضافة إلى الشاشة الرئيسية</b>.',
+          'اضغط <b>إضافة</b> في الأعلى، فتجد أيقونة زاد الحروف مع تطبيقاتك.'],
+    mac: ['من شريط القوائم افتح <b>ملف</b> (File).',
+          'اختر <b>إضافة إلى Dock</b> (Add to Dock)، ثم <b>إضافة</b>.'],
+    chromeIOS: ['التثبيت في الآيفون من <b>سفاري</b> وحده.',
+                'افتح الرابط في سفاري، ثم زر <b>المشاركة</b> ← <b>إضافة إلى الشاشة الرئيسية</b>.']
+  };
+
+  function show(m){ mode = m; btn.hidden = false; }
+  function openSheet(key){
+    steps.innerHTML = GUIDES[key].map(t => '<li>' + t + '</li>').join('');
+    sheet.hidden = false;
+    $('#instClose').focus();
+  }
+
+  if (mode) show(mode);
+  addEventListener('zh:installable', () => show('prompt'));
+  addEventListener('appinstalled', () => { window.__bip = null; btn.hidden = true; sheet.hidden = true; });
+
+  btn.onclick = async () => {
+    if (mode === 'prompt' && window.__bip){
+      const e = window.__bip;
+      window.__bip = null;
+      btn.disabled = true;
+      e.prompt();
+      const { outcome } = await e.userChoice;
+      btn.disabled = false;
+      if (outcome === 'accepted') btn.hidden = true;        // appinstalled يخفيه أيضاً
+      else window.__bip = e;                                 // رفض: أبقه لمحاولة أخرى
+      return;
+    }
+    openSheet(mode === 'mac' ? 'mac' : (iOS && !webkit) ? 'chromeIOS' : 'ios');
+  };
+
+  $('#instClose').onclick = () => { sheet.hidden = true; };
+  sheet.onclick = e => { if (e.target === sheet) sheet.hidden = true; };
+  addEventListener('keydown', e => { if (e.key === 'Escape') sheet.hidden = true; });
+})();
 </script>
 </body>
 </html>
